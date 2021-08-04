@@ -1,40 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>API Test</title>
+        <title>Glitter</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- <link rel="stylesheet" href="./styles/tailwind.css"> -->
+        <!-- <script type="module" src="./scripts/initTimeline.js"></script>
+        <script type="module" src="./scripts/login.js"></script> -->
     </head>
-    <body class="bg-gray-50 flex flex-col min-h-screen">
-        <div class="container flex-grow px-8">
-            <h1>API Test</h1>
+    <body>
+        <div class="logo">
+            <img src ="./images/logo.png" alt="Glitter">
+        </div>
 
-            <form id="search">
-                <div class="relative">
-                    <span class="absolute inset-y-0 flex items-center pl-2">
-                        <img src="./magnifying-glass.png" class="w-5 h-5">
-                    </span>
-                    <input type="search" id="keyword" name="q" class="pl-10 pr-1 py-1" placeholder="keyword..." autofocus>
-                </div>
-            </form>
+        <div class="navigation">
+            <a class="hyperlink bold-large block bg-gray-200 px-4 py-2 w-40" href="./about.html">About Us</a>
+            <button class="hyperlink bold-large block bg-gray-100 px-4 py-2 w-40" id="logout-button">Log Out</button>
+        </div>
 
-            <div id="results" class="py-2" hidden>
-                <h2>Search Results</h2>
-                <pre id="result-value">None</pre>
+        <div class="timeline-header">
+          <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
+              <button class="hyperlink bold-large bg-gray-200 px-8 py-2" id="user-button">User Timeline</button>
+              <button class="hyperlink bold-large bg-gray-100 px-8 py-2" id="home-button">Home Timeline</button>
+              <button class="hyperlink bold-large bg-gray-200 px-8 py-2" id="public-button">Public Timeline</button>
+          </nav>
+        </div>
+
+        <div class="post-message">
+            <button class="font-bold hyperlink text-xl block bg-gray-200 p-8" id="post-button">📝 Post Message</button>
+        </div>
+
+        <div class="pl-40">
+            <div class="timeline-container">
+                <section id="timeline-posts" class="timeline-posts text-gray-600 body-font">
+                    <div id="post-container" class="container px-5 py-24 mx-auto">
+                    </div>
+                </section>
             </div>
         </div>
 
-        <footer class="text-xs flow-root">
-            <div class="pl-2 float-left">
-                Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a>
-                from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
-            </div>
-            <div class="float-right pr-2">
-                Search input with integrated icon by
-                <a href="https://tailwindcomponents.com/u/cricksu" title="Criksu">Cricksu</a>
-                from
-                <a href="https://tailwindcomponents.com/component/search-input-with-integrated-icon-and-button" title="TailwindComponents">tailwindcomponents.com</a>
-            </div>
-        </footer>
-    </body>
+  <footer class="text-gray-600 body-font">
+    <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+      <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+        <span class="ml-3 text-xl">Group 6</span>
+      </a>
+      <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© 2021  — CS 349 Project 3</p>
+      <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+        <a class="hyperlink font-bold px-8" href="./about.html">About Us</a>
+        <a class="hyperlink font-bold px-8" href="https://github.com/quentinmay/cpsc349-project3">Contact</a>
+      </span>
+    </div>
+  </footer>
 </html>

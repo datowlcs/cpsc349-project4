@@ -1,6 +1,14 @@
 /* Mockroblog client API stubs for prototyping */
 
 export function createUser (username, email, password) {
+  if (password.length < 8) {
+    window.alert('Password must be atleast 8 characters long')
+    return 0
+  }
+  if (/^[^\s@]+@[^\s@]+.[^\s@]+$/.test(email) !== true) {
+    window.alert('Invalid email entry. Please input a valid email address')
+    return 0
+  }
   if (['ProfAvery', 'KevinAWortman', 'Beth_CSUF'].indexOf(username) < 0) {
     return {
       id: 4,
@@ -8,6 +16,9 @@ export function createUser (username, email, password) {
       email: email,
       password: password
     }
+  } else {
+    window.alert('An Account with that information already exists. Please try again.')
+    return 0
   }
 }
 
@@ -36,6 +47,19 @@ export function authenticateUser (username, password) {
   }
 
   return null
+}
+
+export function getUserName (userID) {
+  switch (userID) {
+    case 1:
+      return 'ProfAvery'
+    case 2:
+      return 'KevinAWortman'
+    case 3:
+      return 'Beth_CSUF'
+    default:
+      return null
+  }
 }
 
 export function addFollower (userId, userIdToFollow) {

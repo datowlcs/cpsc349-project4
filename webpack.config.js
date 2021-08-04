@@ -5,10 +5,29 @@ module.exports = {
   output: {
     clean: true
   },
+  entry: {
+    index: path.resolve(__dirname, 'src/index.js'),
+    login: path.resolve(__dirname, 'src/login.js'),
+    tailwind: path.resolve(__dirname, 'src/styles/tailwind.css')
+  },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.resolve(__dirname, 'src/index.html')
+      template: path.resolve(__dirname, 'src/index.html'),
+      inject: true,
+      chunks: ['index', 'tailwind'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'about.html',
+      template: path.resolve(__dirname, 'src/about.html'),
+      inject: true,
+      chunks: ['tailwind']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'login.html',
+      template: path.resolve(__dirname, 'src/login.html'),
+      inject: true,
+      chunks: ['login', 'tailwind']
     })
   ],
   module: {
@@ -38,5 +57,5 @@ module.exports = {
     ]
   },
   mode: 'development',
-  devtool: 'inline-source-map',
+  devtool: 'inline-source-map'
 }
