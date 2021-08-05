@@ -1,17 +1,21 @@
 import * as mockroblog from './mockroblog.js'
 
 const loginButton = document.getElementById('loginButton')
-loginButton.addEventListener('click', () => {
+loginButton.addEventListener('click', async () => {
   const username = document.getElementById('usernameN').value
   const password = document.getElementById('passwordN').value
-  const user = mockroblog.authenticateUser(username, password)
-  if (user) {
-    window.localStorage.setItem('userID', user.id)
-    window.localStorage.setItem('username', user.username)
-    window.alert('Login succeeded')
-    // https://stackoverflow.com/questions/16984943/how-to-get-the-directory-part-of-current-url-in-javascript/16985051
-    window.location.replace(`${document.URL.substr(0, document.URL.lastIndexOf('/'))}/index.html`)
-  } else {
+  let user = await mockroblog.authenticateUser(username, password)
+  if(user[0]){
+    if (user[0].username == username) {
+      window.localStorage.setItem('userID', user.id)
+      window.localStorage.setItem('username', user.username)
+      window.alert('Login succeeded')
+      // https://stackoverflow.com/questions/16984943/how-to-get-the-directory-part-of-current-url-in-javascript/16985051
+      window.location.replace(`${document.URL.substr(0, document.URL.lastIndexOf('/'))}/index.html`)
+    }
+    // "Omitted error check cause it was breaking something"
+  }
+  else {
     console.log(username, password, user)
     window.alert('Login failed.')
   }
