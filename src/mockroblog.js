@@ -1,6 +1,6 @@
 /* Mockroblog client API stubs for prototyping */
 
-export function createUser(username, email, password) {
+export function createUser (username, email, password) {
   if (password.length < 8) {
     window.alert('Password must be atleast 8 characters long')
     return 0
@@ -22,7 +22,7 @@ export function createUser(username, email, password) {
   }
 }
 
-export function authenticateUser(username, password) {
+export function authenticateUser (username, password) {
   if (username === 'ProfAvery' && password === 'password') {
     return {
       id: 1,
@@ -49,7 +49,7 @@ export function authenticateUser(username, password) {
   return null
 }
 
-export function getUserName(userID) {
+export function getUserName (userID) {
   switch (userID) {
     case 1:
       return 'ProfAvery'
@@ -62,38 +62,36 @@ export function getUserName(userID) {
   }
 }
 
-export async function getFollowers(userID) {
-
-  let response = await fetch('http://localhost:5000/followers/');
-  let followerList = await response.json();
+export async function getFollowers (userID) {
+  const response = await fetch('http://localhost:5000/followers/')
+  const followerList = await response.json()
 }
 
-export async function addFollower(userId, userIdToFollow) {
+export async function addFollower (userId, userIdToFollow) {
   try {
-    let data = {
-      "follower_id": userId,
-      "following_id": userIdToFollow
+    const data = {
+      follower_id: userId,
+      following_id: userIdToFollow
     }
 
-    let request = await fetch('http://localhost:5000/followers/', {
+    const request = await fetch('http://localhost:5000/followers/', {
       method: 'POST', // or 'PUT'
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
 
-    console.log(request);
+    console.log(request)
 
     return {
       id: 6,
       follower_id: userId,
       following_id: userIdToFollow
     }
-
   } catch (err) {
-    console.log(err);
-    throw err;
+    console.log(err)
+    throw err
   }
 
   // if (userId > 3) {
@@ -105,7 +103,7 @@ export async function addFollower(userId, userIdToFollow) {
   // }
 }
 
-export function removeFollower(userId, userIdToStopFollowing) {
+export function removeFollower (userId, userIdToStopFollowing) {
   if (userId <= 3) {
     return {
       message: null
@@ -113,19 +111,18 @@ export function removeFollower(userId, userIdToStopFollowing) {
   }
 }
 
-export async function getUser(username) {
-  let response = await fetch(`http://localhost:5000/users/?username=${username}`);
-  let user = await response.json();
-  return user.resources[0];
-
+export async function getUser (username) {
+  const response = await fetch(`http://localhost:5000/users/?username=${username}`)
+  const user = await response.json()
+  return user.resources[0]
 }
 
-export async function getUserTimeline(username) {
-  let user = await getUser(username)
-  let response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}`);
+export async function getUserTimeline (username) {
+  const user = await getUser(username)
+  const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}`)
 
-  let userTimeline = await response.json();
-  return userTimeline.resources;
+  const userTimeline = await response.json()
+  return userTimeline.resources
   // switch (username) {
   //   case 'ProfAvery':
   //     return [
@@ -177,13 +174,12 @@ export async function getUserTimeline(username) {
   // }
 }
 
-export async function getPublicTimeline() {
+export async function getPublicTimeline () {
+  const response = await fetch('http://localhost:5000/posts/')
 
-  let response = await fetch('http://localhost:5000/posts/')
+  const json = await response.json()
 
-  let json = await response.json();
-
-  return json.resources;
+  return json.resources
   // return [
   //   {
   //     id: 2,
@@ -224,7 +220,7 @@ export async function getPublicTimeline() {
   // ]
 }
 
-export function getHomeTimeline(username) {
+export function getHomeTimeline (username) {
   switch (username) {
     case 'ProfAvery':
       return [
@@ -281,7 +277,7 @@ export function getHomeTimeline(username) {
   }
 }
 
-export function postMessage(userId, text) {
+export function postMessage (userId, text) {
   if (userId > 3) {
     const now = new Date()
     const timestamp =

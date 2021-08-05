@@ -3,7 +3,7 @@ import * as utility from './util.js'
 
 window.mockroblog = mockroblog
 onBoot()
-function onBoot() {
+function onBoot () {
   const loggedIn = utility.isLoggedIn()
   if (loggedIn) {
     populateTimeline()
@@ -54,15 +54,15 @@ homeBtn.addEventListener('click', async () => {
 
 // Public Timeline Button
 publicBtn.addEventListener('click', async () => {
-  let timelineJson = await mockroblog.getPublicTimeline();
+  const timelineJson = await mockroblog.getPublicTimeline()
   appendPosts(timelineJson)
 })
 
-async function populateTimeline() {
-  appendPosts(await mockroblog.getPublicTimeline());
+async function populateTimeline () {
+  appendPosts(await mockroblog.getPublicTimeline())
 }
 
-function appendPosts(timelineJson) {
+function appendPosts (timelineJson) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
   for (const post of timelineJson) {
@@ -119,7 +119,7 @@ function appendPosts(timelineJson) {
   }
 }
 
-function updateTimeline(follow, userID) {
+function updateTimeline (follow, userID) {
   const postItems = document.querySelector('#post-container').getElementsByClassName('post-item')
   for (const postItem of postItems) {
     console.log(postItem.getElementsByClassName('post-username'))

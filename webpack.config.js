@@ -15,7 +15,7 @@ module.exports = {
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html'),
       inject: true,
-      chunks: ['index', 'tailwind'],
+      chunks: ['index', 'tailwind']
     }),
     new HtmlWebpackPlugin({
       filename: 'about.html',
