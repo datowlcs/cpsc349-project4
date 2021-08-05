@@ -39,7 +39,7 @@ postBtn.addEventListener('click', () => {
 userBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
   if (user) {
-    const timeline = mockroblog.getUserTimeline(user)
+    const timeline = await mockroblog.getUserTimeline(user)
     appendPosts(timeline)
   }
 })
@@ -58,8 +58,8 @@ publicBtn.addEventListener('click', async () => {
   appendPosts(timelineJson)
 })
 
-function populateTimeline() {
-  // appendPosts(mockroblog.getPublicTimeline())
+async function populateTimeline() {
+  appendPosts(await mockroblog.getPublicTimeline());
 }
 
 function appendPosts(timelineJson) {
