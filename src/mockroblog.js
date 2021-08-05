@@ -22,44 +22,37 @@ export function createUser (username, email, password) {
   }
 }
 
-export function authenticateUser (username, password) {
-  if (username === 'ProfAvery' && password === 'password') {
-    return {
-      id: 1,
-      username: 'ProfAvery',
-      email: 'kavery@fullerton.edu',
-      password: 'password'
-    }
-  } else if (username === 'KevinAWortman' && password === 'qwerty') {
-    return {
-      id: 2,
-      username: 'KevinAWortman',
-      email: 'kwortman@fullerton.edu',
-      password: 'qwerty'
-    }
-  } else if (username === 'Beth_CSUF' && password === 'secret') {
-    return {
-      id: 3,
-      username: 'Beth_CSUF',
-      email: 'beth.harnick.shapiro@fullerton.edu',
-      password: 'secret'
-    }
-  }
+export async function authenticateUser (username, password) {
+  let response = await fetch(`http://localhost:5000/users/?username=${username}&password=${password}`,{
+    method: 'GET',
+  });
+  console.log(response);
 
-  return null
+  let user = await response.json();
+ 
+  if(!response.ok)
+    {
+      alert("Invald Request. Please try again.");
+      return null;
+    }
+  return user.resources;
 }
 
-export function getUserName (userID) {
-  switch (userID) {
-    case 1:
-      return 'ProfAvery'
-    case 2:
-      return 'KevinAWortman'
-    case 3:
-      return 'Beth_CSUF'
-    default:
-      return null
+export async function getUserName (userID) {
+  let response = await fetch(`http://localhost:5000/users/?id=${userID}`,{
+    method: 'GET',
+  });
+  console.log(response);
+
+  let user = await response.json();
+
+  if(!response.ok)
+  {
+    alert("Invald Request. Please try again.");
+    return null;
   }
+
+  return user.resources[0].username;
 }
 
 export async function addFollower(userId, userIdToFollow) {
