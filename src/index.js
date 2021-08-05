@@ -3,7 +3,7 @@ import * as utility from './util.js'
 
 window.mockroblog = mockroblog
 onBoot()
-function onBoot() {
+function onBoot () {
   const loggedIn = utility.isLoggedIn()
   if (loggedIn) {
     populateTimeline()
@@ -36,16 +36,16 @@ postBtn.addEventListener('click', () => {
 })
 
 // User Timeline Button
-userBtn.addEventListener('click', () => {
+userBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
   if (user) {
-    const timeline = mockroblog.getUserTimeline(user)
+    const timeline = await mockroblog.getUserTimeline(user)
     appendPosts(timeline)
   }
 })
 
 // Home Timeline Button
-homeBtn.addEventListener('click', () => {
+homeBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
   if (user) {
     appendPosts(mockroblog.getHomeTimeline(user))
@@ -53,15 +53,16 @@ homeBtn.addEventListener('click', () => {
 })
 
 // Public Timeline Button
-publicBtn.addEventListener('click', () => {
-  appendPosts(mockroblog.getPublicTimeline())
+publicBtn.addEventListener('click', async () => {
+  const timelineJson = await mockroblog.getPublicTimeline()
+  appendPosts(timelineJson)
 })
 
-function populateTimeline() {
-  appendPosts(mockroblog.getPublicTimeline())
+async function populateTimeline () {
+  appendPosts(await mockroblog.getPublicTimeline())
 }
 
-function appendPosts(timelineJson) {
+function appendPosts (timelineJson) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
   for (const post of timelineJson) {
@@ -118,7 +119,7 @@ function appendPosts(timelineJson) {
   }
 }
 
-function updateTimeline(follow, userID) {
+function updateTimeline (follow, userID) {
   const postItems = document.querySelector('#post-container').getElementsByClassName('post-item')
   for (const postItem of postItems) {
     console.log(postItem.getElementsByClassName('post-username'))
