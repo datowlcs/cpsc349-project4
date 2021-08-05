@@ -62,14 +62,41 @@ export function getUserName (userID) {
   }
 }
 
-export function addFollower (userId, userIdToFollow) {
-  if (userId > 3) {
+export async function addFollower(userId, userIdToFollow) {
+  try {
+    let data = {
+      "follower_id": userId,
+      "following_id": userIdToFollow
+    }
+
+    let request = await fetch('http://localhost:5000/followers/', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    console.log(request);
+
     return {
       id: 6,
       follower_id: userId,
       following_id: userIdToFollow
     }
+
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
+
+  // if (userId > 3) {
+  //   return {
+  //     id: 6,
+  //     follower_id: userId,
+  //     following_id: userIdToFollow
+  //   }
+  // }
 }
 
 export function removeFollower (userId, userIdToStopFollowing) {
