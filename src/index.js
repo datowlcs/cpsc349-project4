@@ -36,7 +36,7 @@ postBtn.addEventListener('click', () => {
 })
 
 // User Timeline Button
-userBtn.addEventListener('click', () => {
+userBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
   if (user) {
     const timeline = mockroblog.getUserTimeline(user)
@@ -45,7 +45,7 @@ userBtn.addEventListener('click', () => {
 })
 
 // Home Timeline Button
-homeBtn.addEventListener('click', () => {
+homeBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
   if (user) {
     appendPosts(mockroblog.getHomeTimeline(user))
@@ -53,12 +53,13 @@ homeBtn.addEventListener('click', () => {
 })
 
 // Public Timeline Button
-publicBtn.addEventListener('click', () => {
-  appendPosts(mockroblog.getPublicTimeline())
+publicBtn.addEventListener('click', async () => {
+  let timelineJson = await mockroblog.getPublicTimeline();
+  appendPosts(timelineJson)
 })
 
 function populateTimeline() {
-  appendPosts(mockroblog.getPublicTimeline())
+  // appendPosts(mockroblog.getPublicTimeline())
 }
 
 function appendPosts(timelineJson) {
