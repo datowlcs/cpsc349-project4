@@ -108,4 +108,4 @@ additional data not included in
 The REST API exposed by `sandman2` also allows additional types of queries
 against existing data. See
 [the documentation](https://pythonhosted.org/sandman2/interacting.html) for
-details.
+details
