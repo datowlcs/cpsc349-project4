@@ -148,14 +148,14 @@ export async function getUser(username) {
 export async function getUserTimeline(username) {
   const user = await getUser(username)
   // console.log(user);
-  const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}`)
+  const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}&sort=-timestamp`)
 
   const userTimeline = await response.json()
   return userTimeline.resources
 }
 
 export async function getPublicTimeline() {
-  const response = await fetch('http://localhost:5000/posts/')
+  const response = await fetch('http://localhost:5000/posts/?sort=-timestamp')
 
   const json = await response.json()
 
@@ -171,7 +171,7 @@ export async function getHomeTimeline(username) {
   //get posts of all followingUsers
   let promises = [];
   for (let follower of followingList.resources) {
-    const response = await fetch(`http://localhost:5000/posts/?user_id=${(follower.following_id)}`)
+    const response = await fetch(`http://localhost:5000/posts/?user_id=${(follower.following_id)}&sort=-timestamp`)
     promises.push(response);
 
   }
@@ -188,6 +188,11 @@ export async function getHomeTimeline(username) {
       allPosts.push(resource);
     }
   }
+
+  //https://stackoverflow.com/questions/7555025/fastest-way-to-sort-an-array-by-timestamp
+  allPosts.sort(function (x, y) {
+    return new Date(y.timestamp).getTime() - new Date(x.timestamp).getTime()
+  });
   // console.log(allPosts);
 
 
