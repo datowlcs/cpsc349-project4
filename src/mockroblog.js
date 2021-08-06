@@ -1,53 +1,51 @@
 /* Mockroblog client API stubs for prototyping */
-export async function createUser (username, email, password) {  
-   
+export async function createUser(username, email, password) {
+
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify({
-       id: 4,
+      id: 4,
       username: username,
       email: email,
       password: password
     }),
     headers: new Headers()
   })
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data)
-    return data
-  }) 
-  .catch(error =>{
-    console.log(error)
-    return null
-  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      return data
+    })
+    .catch(error => {
+      console.log(error)
+      return null
+    })
 }
 
-export async function authenticateUser (username, password) {
-  let response = await fetch(`http://localhost:5000/users/?username=${username}&password=${password}`,{
+export async function authenticateUser(username, password) {
+  let response = await fetch(`http://localhost:5000/users/?username=${username}&password=${password}`, {
     method: 'GET',
   });
   console.log(response);
 
   let user = await response.json();
- 
-  if(!response.ok)
-    {
-      alert("Invald Request. Please try again.");
-      return null;
-    }
+
+  if (!response.ok) {
+    alert("Invald Request. Please try again.");
+    return null;
+  }
   return user.resources;
 }
 
-export async function getUserName (userID) {
-  let response = await fetch(`http://localhost:5000/users/?id=${userID}`,{
+export async function getUserName(userID) {
+  let response = await fetch(`http://localhost:5000/users/?id=${userID}`, {
     method: 'GET',
   });
-  console.log(response);
+  // console.log(response);
 
   let user = await response.json();
 
-  if(!response.ok)
-  {
+  if (!response.ok) {
     alert("Invald Request. Please try again.");
     return null;
   }
@@ -55,12 +53,12 @@ export async function getUserName (userID) {
   return user.resources[0].username;
 }
 
-export async function getFollowers (userID) {
+export async function getFollowers(userID) {
   const response = await fetch('http://localhost:5000/followers/')
   const followerList = await response.json()
 }
 
-export async function addFollower (userId, userIdToFollow) {
+export async function addFollower(userId, userIdToFollow) {
   try {
     const data = {
       follower_id: userId,
@@ -75,7 +73,7 @@ export async function addFollower (userId, userIdToFollow) {
       body: JSON.stringify(data)
     })
 
-    console.log(request)
+    // console.log(request)
 
     return {
       id: 6,
@@ -96,7 +94,7 @@ export async function addFollower (userId, userIdToFollow) {
   // }
 }
 
-export function removeFollower (userId, userIdToStopFollowing) {
+export function removeFollower(userId, userIdToStopFollowing) {
   if (userId <= 3) {
     return {
       message: null
@@ -104,13 +102,13 @@ export function removeFollower (userId, userIdToStopFollowing) {
   }
 }
 
-export async function getUser (username) {
+export async function getUser(username) {
   const response = await fetch(`http://localhost:5000/users/?username=${username}`)
   const user = await response.json()
   return user.resources[0]
 }
 
-export async function getUserTimeline (username) {
+export async function getUserTimeline(username) {
   const user = await getUser(username)
   const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}`)
 
@@ -167,7 +165,7 @@ export async function getUserTimeline (username) {
   // }
 }
 
-export async function getPublicTimeline () {
+export async function getPublicTimeline() {
   const response = await fetch('http://localhost:5000/posts/')
 
   const json = await response.json()
@@ -213,7 +211,7 @@ export async function getPublicTimeline () {
   // ]
 }
 
-export function getHomeTimeline (username) {
+export function getHomeTimeline(username) {
   switch (username) {
     case 'ProfAvery':
       return [
@@ -270,7 +268,7 @@ export function getHomeTimeline (username) {
   }
 }
 
-export function postMessage (userId, text) {
+export function postMessage(userId, text) {
   if (userId > 3) {
     const now = new Date()
     const timestamp =

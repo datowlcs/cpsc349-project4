@@ -3,7 +3,7 @@ import * as utility from './util.js'
 
 window.mockroblog = mockroblog
 onBoot()
-function onBoot () {
+function onBoot() {
   const loggedIn = utility.isLoggedIn()
   if (loggedIn) {
     populateTimeline()
@@ -26,11 +26,11 @@ logoutBtn.addEventListener('click', () => {
 })
 
 // Post Message Button
-postBtn.addEventListener('click', () => {
+postBtn.addEventListener('click', async () => {
   const postMsg = window.prompt('Please provide a post', 'Today I experienced...')
   if (postMsg !== '' && postMsg !== null) {
     const user = window.localStorage.getItem('userID')
-    mockroblog.postMessage(user, postMsg)
+    await mockroblog.postMessage(user, postMsg)
     window.alert('You have posted a new message.')
   }
 })
@@ -38,6 +38,7 @@ postBtn.addEventListener('click', () => {
 // User Timeline Button
 userBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
+  console.log(user);
   if (user) {
     const timeline = await mockroblog.getUserTimeline(user)
     appendPosts(timeline)
@@ -48,7 +49,7 @@ userBtn.addEventListener('click', async () => {
 homeBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
   if (user) {
-    appendPosts(mockroblog.getHomeTimeline(user))
+    appendPosts(await mockroblog.getHomeTimeline(user))
   }
 })
 
@@ -58,11 +59,11 @@ publicBtn.addEventListener('click', async () => {
   appendPosts(timelineJson)
 })
 
-async function populateTimeline () {
+async function populateTimeline() {
   appendPosts(await mockroblog.getPublicTimeline())
 }
 
-function appendPosts (timelineJson) {
+async function appendPosts(timelineJson) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
   for (const post of timelineJson) {
@@ -87,9 +88,9 @@ function appendPosts (timelineJson) {
     const newPost = document.createElement('div')
     newPost.className = 'post-item'
     newPost.innerHTML = `<div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
-            <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${(mockroblog.getUserName(post.user_id))}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
+            <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${(await mockroblog.getUserName(post.user_id))}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
             <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
-                <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(mockroblog.getUserName(post.user_id))}</h2>
+                <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(await mockroblog.getUserName(post.user_id))}</h2>
                 <p class="leading-relaxed text-base">${post.text}</p>
                 <a class="mt-3 text-black-500 inline-flex items-center">${post.timestamp}</a>
                 <button class="hyperlink px-8 py-2" id="follow-button">Follow</button>
@@ -103,13 +104,13 @@ function appendPosts (timelineJson) {
       const loggedInUser = window.localStorage.getItem('userID')
       if (followBtn.textContent === 'Follow') {
         if (loggedInUser && post.user_id) {
-          mockroblog.addFollower(loggedInUser, post.user_id)
+          await mockroblog.addFollower(loggedInUser, post.user_id)
           console.log(`Added follower: ${post.user_id}`)
           updateTimeline(true, post.user_id)
         }
       } else if (followBtn.textContent === 'Unfollow') {
         if (loggedInUser && post.user_id) {
-          mockroblog.removeFollower(loggedInUser, post.user_id)
+          await mockroblog.removeFollower(loggedInUser, post.user_id)
           console.log(`Removed follower: ${post.user_id}`)
           updateTimeline(false, post.user_id)
         }
@@ -119,11 +120,11 @@ function appendPosts (timelineJson) {
   }
 }
 
-function updateTimeline (follow, userID) {
+async function updateTimeline(follow, userID) {
   const postItems = document.querySelector('#post-container').getElementsByClassName('post-item')
   for (const postItem of postItems) {
-    console.log(postItem.getElementsByClassName('post-username'))
-    if (postItem.getElementsByClassName('post-username')[0].textContent === mockroblog.getUserName(userID)) {
+    // console.log(postItem.getElementsByClassName('post-username'))
+    if (postItem.getElementsByClassName('post-username')[0].textContent === await mockroblog.getUserName(userID)) {
       const followBtn = postItem.children[0].children[1].children[3]
       followBtn.textContent = (follow ? 'Unfollow' : 'Follow')
     }
