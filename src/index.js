@@ -7,6 +7,24 @@ const homeBtn = document.getElementById('home-button')
 const publicBtn = document.getElementById('public-button')
 const postBtn = document.getElementById('post-button')
 const logoutBtn = document.getElementById('logout-button')
+const pollBtn = document.getElementById('poll-button')
+const pollSubmitBTn = document.getElementById('poll-submit-button')
+
+
+var modal = document.getElementById("myModal");
+pollBtn.addEventListener('click', async () => {
+  modal.style.display = "block";
+})
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+pollSubmitBTn.addEventListener('click', async () => {
+  modal.style.display = "none";
+  alert("Submitted poll")
+});
 
 window.mockroblog = mockroblog
 onBoot()
@@ -24,6 +42,8 @@ function onBoot() {
 logoutBtn.addEventListener('click', () => {
   utility.userLogout()
 })
+
+
 
 // Post Message Button
 postBtn.addEventListener('click', async () => {
@@ -130,19 +150,19 @@ async function appendPosts(timelineJson) {
             try {
               await mockroblog.addFollower(loggedInUser, post.user_id)
               console.log(`Added follower: ${post.user_id}`)
-              updateTimeline(true, post.user_id)
+              followBtn.textContent = "Follow"
+              updateTimeline(true, postUser.username)
             }
-            catch (err){
+            catch (err) {
               console.log(err)
-              console.log("failure")
             }
-            
+
           }
         } else if (followBtn.textContent === 'Unfollow') {
           if (loggedInUser && post.user_id) {
             await mockroblog.removeFollower(loggedInUser, post.user_id)
             console.log(`Removed follower: ${post.user_id}`)
-            updateTimeline(false, post.user_id)
+            updateTimeline(false, postUser.username)
           }
         }
       })
@@ -151,11 +171,11 @@ async function appendPosts(timelineJson) {
   }
 }
 
-async function updateTimeline(follow, userID) {
+async function updateTimeline(follow, username) {
   const postItems = document.querySelector('#post-container').getElementsByClassName('post-item')
   for (const postItem of postItems) {
     // console.log(postItem.getElementsByClassName('post-username'))
-    if (postItem.getElementsByClassName('post-username')[0].textContent === await mockroblog.getUserName(userID)) {
+    if (postItem.getElementsByClassName('post-username')[0].textContent === username) {
       const followBtn = postItem.children[0].children[1].children[3]
       followBtn.textContent = (follow ? 'Unfollow' : 'Follow')
     }
