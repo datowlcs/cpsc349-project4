@@ -1,6 +1,13 @@
 import * as mockroblog from './mockroblog.js'
 import * as utility from './util.js'
 
+// Buttons
+const userBtn = document.getElementById('user-button')
+const homeBtn = document.getElementById('home-button')
+const publicBtn = document.getElementById('public-button')
+const postBtn = document.getElementById('post-button')
+const logoutBtn = document.getElementById('logout-button')
+
 window.mockroblog = mockroblog
 onBoot()
 function onBoot() {
@@ -12,13 +19,6 @@ function onBoot() {
     window.location.replace(`${document.URL.substr(0, document.URL.lastIndexOf('/'))}/login.html`)
   }
 }
-
-// Buttons
-const userBtn = document.getElementById('user-button')
-const homeBtn = document.getElementById('home-button')
-const publicBtn = document.getElementById('public-button')
-const postBtn = document.getElementById('post-button')
-const logoutBtn = document.getElementById('logout-button')
 
 // Logout Button
 logoutBtn.addEventListener('click', () => {

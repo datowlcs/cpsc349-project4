@@ -57,6 +57,11 @@ export async function getFollowers(userID) {
   const followerList = await response.json()
 }
 
+export async function getLikes () {
+  const response = await fetch('http://localhost:5000/likes/')
+  const likesList = await response.json()
+}
+
 export async function addFollower(userId, userIdToFollow) {
   try {
     const data = {
@@ -93,11 +98,32 @@ export async function addFollower(userId, userIdToFollow) {
   // }
 }
 
-export function removeFollower(userId, userIdToStopFollowing) {
-  if (userId <= 3) {
-    return {
-      message: null
+export async function removeFollower (userId, userIdToStopFollowing) {
+  try {
+    const data = {
+      id: tableEntry,
+      follower_id: userId,
+      following_id: userIdToStopFollowing
     }
+
+    const request = await fetch(`localhost:5000/followers/?follower_id=${user_id}&following_id=${following_id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    console.log(request)
+
+    return {
+      id: tableEntry,
+      follower_id: userId,
+      following_id: userIdToStopFollowing
+    }
+  } catch (err) {
+    console.log(err)
+    throw err
   }
 }
 

@@ -17,7 +17,7 @@ $ sudo apt install --yes ruby-foreman sqlite3                   # used to manage
 $ sudo apt install --yes python3-pip python3-flask-cors         # required Python packages
 $ git clone https://github.com/ProfAvery/sandman2.git           # patched version to allow CORS
 $ python3 -m pip install ./sandman2                             # used to expose API
-$ git clone https://github.com/ProfAvery/cpsc349-project4
+$ git clone https://github.com/quentinmay/cpsc349-project4.git
 $ cd cpsc349-project4/api
 $ make                                                          # creates database
 ```
