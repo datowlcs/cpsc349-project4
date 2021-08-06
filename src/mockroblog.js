@@ -57,6 +57,7 @@ export async function getFollowing(userID) {
   const followingList = await response.json()
   return followingList.resources;
 }
+
 export async function getFollowers(userID) {
   const response = await fetch(`http://localhost:5000/followers/?following_id=${userID}`)
   const followerList = await response.json()
@@ -67,6 +68,7 @@ export async function getFollowers(userID) {
 export async function getLikes() {
   const response = await fetch('http://localhost:5000/likes/')
   const likesList = await response.json()
+  return likesList.resources;
 }
 
 export async function addFollower(userId, userIdToFollow) {
@@ -110,14 +112,13 @@ export async function removeFollower(userId, userIdToStopFollowing) {
     const getFollowerObject = await fetch(`http://localhost:5000/followers/?follower_id=${userId}&following_id=${userIdToStopFollowing}`);
     const jsonObj = await getFollowerObject.json();
 
-
     const data = {
       id: jsonObj.resources[0].id,
       follower_id: userId,
       following_id: userIdToStopFollowing
     }
 
-    const request = await fetch(`http://localhost:5000/followers/?follower_id=${userId}&following_id=${userIdToStopFollowing}`, {
+    const request = await fetch(`http://localhost:5000/followers/${data.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -125,7 +126,7 @@ export async function removeFollower(userId, userIdToStopFollowing) {
       body: JSON.stringify(data)
     })
 
-    console.log(request)
+    //console.log(request)
 
     return {
       id: data.id,
@@ -248,22 +249,49 @@ export async function getHomeTimeline(username) {
   }
 }
 
-export function postMessage(userId, text) {
-  if (userId > 3) {
-    const now = new Date()
-    const timestamp =
-      now.getUTCFullYear() + '-' +
-      String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
-      String(now.getUTCDate()).padStart(2, '0') + ' ' +
-      String(now.getUTCHours()).padStart(2, '0') + ':' +
-      String(now.getUTCMinutes()).padStart(2, '0') + ':' +
-      String(now.getUTCSeconds()).padStart(2, '0')
+export async function postMessage(userId, text) {
+  // if (userId > 3) {
+  //   const now = new Date()
+  //   const timestamp =
+  //     now.getUTCFullYear() + '-' +
+  //     String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
+  //     String(now.getUTCDate()).padStart(2, '0') + ' ' +
+  //     String(now.getUTCHours()).padStart(2, '0') + ':' +
+  //     String(now.getUTCMinutes()).padStart(2, '0') + ':' +
+  //     String(now.getUTCSeconds()).padStart(2, '0')
 
-    return {
-      id: 7,
+  //   return {
+  //     id: 7,
+  //     user_id: userId,
+  //     text: text,
+  //     timestamp: timestamp
+  //   }
+  // }
+
+  try {
+    const data = {
       user_id: userId,
-      text: text,
-      timestamp: timestamp
+      user_text: text
+      
     }
+    
+  const request = await fetch('http://localhost:5000/posts/',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+
+  console.log(request)
+
+  return {
+    id: 6,
+    user_id: userId,
+    user_text: text
   }
+} catch (err) {
+  console.log(err)
+  throw err
+}
 }

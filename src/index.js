@@ -31,7 +31,8 @@ postBtn.addEventListener('click', async () => {
   if (postMsg !== '' && postMsg !== null) {
     const user = window.localStorage.getItem('userID')
     await mockroblog.postMessage(user, postMsg)
-    window.alert('You have posted a new message.')
+    //window.alert('You have posted a new message.')
+    console.log('You have posted a new message.')
   }
 })
 
