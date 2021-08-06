@@ -52,9 +52,16 @@ export async function getUserName(userID) {
   return user.resources[0];
 }
 
+export async function getFollowing(userID) {
+  const response = await fetch(`http://localhost:5000/followers/?follower_id=${userID}`)
+  const followingList = await response.json()
+  return followingList.resources;
+}
 export async function getFollowers(userID) {
-  const response = await fetch('http://localhost:5000/followers/')
+  const response = await fetch(`http://localhost:5000/followers/?following_id=${userID}`)
   const followerList = await response.json()
+  return followerList.resources;
+
 }
 
 export async function getLikes() {
@@ -135,7 +142,7 @@ export async function getUser(username) {
 
 export async function getUserTimeline(username) {
   const user = await getUser(username)
-  console.log(user);
+  // console.log(user);
   const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}`)
 
   const userTimeline = await response.json()
@@ -153,7 +160,7 @@ export async function getPublicTimeline() {
 //Home timeline is everyone the current logged in user is following. All of their posts.
 export async function getHomeTimeline(username) {
   let loggedInUser = await getUser(username);
-  console.log(loggedInUser);
+  // console.log(loggedInUser);
   const response = await fetch(`http://localhost:5000/followers/?follower_id=${loggedInUser.id}`);
   const followingList = await response.json();
   //get posts of all followingUsers

@@ -67,6 +67,9 @@ async function appendPosts(timelineJson) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
 
+  const loggedInUserID = window.localStorage.getItem('userID')
+  const followingList = await mockroblog.getFollowing(loggedInUserID);
+
   let promises = [];
   let uniqueIDs = [];
   for (const tmp of timelineJson) {
@@ -95,7 +98,7 @@ async function appendPosts(timelineJson) {
                     </div>
                 </div>
         */
-    let postUser = users.find(user => user.id === post.user_id);
+    const postUser = users.find(user => user.id === post.user_id);
     const newPost = document.createElement('div')
     newPost.className = 'post-item'
     newPost.innerHTML = `<div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
@@ -110,9 +113,16 @@ async function appendPosts(timelineJson) {
         `
 
     // Add follower
-    const followBtn = newPost.children[0].children[1].children[3]
+    const followBtn = newPost.children[0].children[1].children[3];
+    let isFollowing = followingList.find(follower => follower.following_id === postUser.id);
+    if (isFollowing) {
+      followBtn.textContent = "Unfollow";
+    } else {
+      followBtn.textContent = "Follow"
+    }
+
     followBtn.addEventListener('click', async () => {
-      const loggedInUser = window.localStorage.getItem('userID')
+      const loggedInUser = window.localStorage.getItem('userID');
       if (followBtn.textContent === 'Follow') {
         if (loggedInUser && post.user_id) {
           await mockroblog.addFollower(loggedInUser, post.user_id)
