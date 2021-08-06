@@ -193,60 +193,6 @@ export async function getHomeTimeline(username) {
 
 
   return allPosts
-  switch (username) {
-    case 'ProfAvery':
-      return [
-        {
-          id: 5,
-          user_id: 2,
-          text: "I keep seeing video from before COVID, of people not needing to mask or distance, and doing something like waiting in line at Burger King. YOU'RE WASTING IT!",
-          timestamp: '2021-07-24 05:10:12'
-        },
-        {
-          id: 4,
-          user_id: 2,
-          text: 'If academia were a video game, then a 2.5 hour administrative meeting that votes to extend time 15 minutes is a fatality. FINISH HIM',
-          timestamp: '2021-07-24 05:08:12'
-        },
-        {
-          id: 6,
-          user_id: 3,
-          text: '#cpsc315 #engr190w NeurIPS is $25 for students and $100 for non-students this year! https://medium.com/@NeurIPSConf/neurips-registration-opens-soon-67111581de99',
-          timestamp: '2021-07-24 05:07:12'
-        }
-      ]
-    case 'KevinAWortman':
-      return [
-        {
-          id: 2,
-          user_id: 1,
-          text: 'FYI: https://www.levels.fyi/still-hiring/',
-          timestamp: '2021-07-24 05:11:12'
-        },
-        {
-          id: 3,
-          user_id: 1,
-          text: 'Yes, the header file ends in .h. C++ is for masochists.',
-          timestamp: '2021-07-24 05:09:12'
-        },
-        {
-          id: 6,
-          user_id: 3,
-          text: '#cpsc315 #engr190w NeurIPS is $25 for students and $100 for non-students this year! https://medium.com/@NeurIPSConf/neurips-registration-opens-soon-67111581de99',
-          timestamp: '2021-07-24 05:07:12'
-        },
-        {
-          id: 1,
-          user_id: 1,
-          text: 'Meanwhile, at the R1 institution down the street... https://uci.edu/coronavirus/messages/200710-sanitizer-recall.php',
-          timestamp: '2021-07-24 05:06:12'
-        }
-      ]
-    case 'Beth_CSUF':
-      return getUserTimeline('KevinAWortman')
-    default:
-      return []
-  }
 }
 
 export async function postMessage(userId, text) {
