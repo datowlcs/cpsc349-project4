@@ -127,9 +127,16 @@ async function appendPosts(timelineJson) {
         const loggedInUser = window.localStorage.getItem('userID');
         if (followBtn.textContent === 'Follow') {
           if (loggedInUser && post.user_id) {
-            await mockroblog.addFollower(loggedInUser, post.user_id)
-            console.log(`Added follower: ${post.user_id}`)
-            updateTimeline(true, post.user_id)
+            try {
+              await mockroblog.addFollower(loggedInUser, post.user_id)
+              console.log(`Added follower: ${post.user_id}`)
+              updateTimeline(true, post.user_id)
+            }
+            catch (err){
+              console.log(err)
+              console.log("failure")
+            }
+            
           }
         } else if (followBtn.textContent === 'Unfollow') {
           if (loggedInUser && post.user_id) {
