@@ -250,48 +250,30 @@ export async function getHomeTimeline(username) {
 }
 
 export async function postMessage(userId, text) {
-  // if (userId > 3) {
-  //   const now = new Date()
-  //   const timestamp =
-  //     now.getUTCFullYear() + '-' +
-  //     String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
-  //     String(now.getUTCDate()).padStart(2, '0') + ' ' +
-  //     String(now.getUTCHours()).padStart(2, '0') + ':' +
-  //     String(now.getUTCMinutes()).padStart(2, '0') + ':' +
-  //     String(now.getUTCSeconds()).padStart(2, '0')
-
-  //   return {
-  //     id: 7,
-  //     user_id: userId,
-  //     text: text,
-  //     timestamp: timestamp
-  //   }
-  // }
 
   try {
     const data = {
       user_id: userId,
+      text: text
+    };
+
+    const request = await fetch('http://localhost:5000/posts/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    console.log(request)
+
+    return {
+      id: 6,
+      user_id: userId,
       user_text: text
-      
     }
-    
-  const request = await fetch('http://localhost:5000/posts/',{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-
-  console.log(request)
-
-  return {
-    id: 6,
-    user_id: userId,
-    user_text: text
+  } catch (err) {
+    console.log(err)
+    throw err
   }
-} catch (err) {
-  console.log(err)
-  throw err
-}
 }
