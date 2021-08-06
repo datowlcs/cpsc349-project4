@@ -50,7 +50,7 @@ export async function getUserName(userID) {
     return null;
   }
 
-  return user.resources[0].username;
+  return user.resources[0];
 }
 
 export async function getFollowers(userID) {
@@ -110,6 +110,7 @@ export async function getUser(username) {
 
 export async function getUserTimeline(username) {
   const user = await getUser(username)
+  console.log(user);
   const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}`)
 
   const userTimeline = await response.json()

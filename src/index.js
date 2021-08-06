@@ -66,6 +66,16 @@ async function populateTimeline() {
 async function appendPosts(timelineJson) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
+
+  let promises = [];
+  let uniqueIDs = [];
+  for (const tmp of timelineJson) {
+    if (uniqueIDs.indexOf(tmp.user_id) == -1) {
+      promises.push(mockroblog.getUserName(tmp.user_id));
+    }
+  }
+
+  let users = await Promise.all(promises);
   for (const post of timelineJson) {
     /*
                 <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
@@ -85,12 +95,13 @@ async function appendPosts(timelineJson) {
                     </div>
                 </div>
         */
+    let postUser = users.find(user => user.id === post.user_id);
     const newPost = document.createElement('div')
     newPost.className = 'post-item'
     newPost.innerHTML = `<div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
-            <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${(await mockroblog.getUserName(post.user_id))}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
+            <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${postUser.username}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
             <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
-                <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(await mockroblog.getUserName(post.user_id))}</h2>
+                <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(postUser.username)}</h2>
                 <p class="leading-relaxed text-base">${post.text}</p>
                 <a class="mt-3 text-black-500 inline-flex items-center">${post.timestamp}</a>
                 <button class="hyperlink px-8 py-2" id="follow-button">Follow</button>
@@ -100,7 +111,7 @@ async function appendPosts(timelineJson) {
 
     // Add follower
     const followBtn = newPost.children[0].children[1].children[3]
-    followBtn.addEventListener('click', () => {
+    followBtn.addEventListener('click', async () => {
       const loggedInUser = window.localStorage.getItem('userID')
       if (followBtn.textContent === 'Follow') {
         if (loggedInUser && post.user_id) {
