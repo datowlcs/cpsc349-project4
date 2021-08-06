@@ -57,7 +57,7 @@ export async function getFollowers(userID) {
   const followerList = await response.json()
 }
 
-export async function getLikes () {
+export async function getLikes() {
   const response = await fetch('http://localhost:5000/likes/')
   const likesList = await response.json()
 }
@@ -98,7 +98,7 @@ export async function addFollower(userId, userIdToFollow) {
   // }
 }
 
-export async function removeFollower (userId, userIdToStopFollowing) {
+export async function removeFollower(userId, userIdToStopFollowing) {
   try {
     const data = {
       id: tableEntry,
@@ -150,7 +150,37 @@ export async function getPublicTimeline() {
   return json.resources
 }
 
-export function getHomeTimeline(username) {
+//Home timeline is everyone the current logged in user is following. All of their posts.
+export async function getHomeTimeline(username) {
+  let loggedInUser = await getUser(username);
+  console.log(loggedInUser);
+  const response = await fetch(`http://localhost:5000/followers/?follower_id=${loggedInUser.id}`);
+  const followingList = await response.json();
+  //get posts of all followingUsers
+  let promises = [];
+  for (let follower of followingList.resources) {
+    const response = await fetch(`http://localhost:5000/posts/?user_id=${(follower.following_id)}`)
+    promises.push(response);
+
+  }
+  let posts = await Promise.all(promises);
+  let jsonPromises = [];
+  for (let post of posts) {
+    jsonPromises.push(await post.json())
+  }
+  let jsonPosts = await Promise.all(jsonPromises);
+  let allPosts = [];
+  for (let jsonPost of jsonPosts) {
+    // console.log(jsonPost.resources);
+    for (let resource of jsonPost.resources) {
+      allPosts.push(resource);
+    }
+  }
+  // console.log(allPosts);
+
+
+
+  return allPosts
   switch (username) {
     case 'ProfAvery':
       return [
