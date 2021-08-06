@@ -107,36 +107,38 @@ async function appendPosts(timelineJson) {
                 <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(postUser.username)}</h2>
                 <p class="leading-relaxed text-base">${post.text}</p>
                 <a class="mt-3 text-black-500 inline-flex items-center">${post.timestamp}</a>
-                <button class="hyperlink px-8 py-2" id="follow-button">Follow</button>
+                <button class="hyperlink px-8 py-2" id="follow-button"></button>
             </div>
         </div>
         `
 
     // Add follower
-    const followBtn = newPost.children[0].children[1].children[3];
-    let isFollowing = followingList.find(follower => follower.following_id === postUser.id);
-    if (isFollowing) {
-      followBtn.textContent = "Unfollow";
-    } else {
-      followBtn.textContent = "Follow"
-    }
-
-    followBtn.addEventListener('click', async () => {
-      const loggedInUser = window.localStorage.getItem('userID');
-      if (followBtn.textContent === 'Follow') {
-        if (loggedInUser && post.user_id) {
-          await mockroblog.addFollower(loggedInUser, post.user_id)
-          console.log(`Added follower: ${post.user_id}`)
-          updateTimeline(true, post.user_id)
-        }
-      } else if (followBtn.textContent === 'Unfollow') {
-        if (loggedInUser && post.user_id) {
-          await mockroblog.removeFollower(loggedInUser, post.user_id)
-          console.log(`Removed follower: ${post.user_id}`)
-          updateTimeline(false, post.user_id)
-        }
+    if (postUser.id != window.localStorage.getItem('userID')) {
+      const followBtn = newPost.children[0].children[1].children[3];
+      let isFollowing = followingList.find(follower => follower.following_id === postUser.id);
+      if (isFollowing) {
+        followBtn.textContent = "Unfollow";
+      } else {
+        followBtn.textContent = "Follow"
       }
-    })
+
+      followBtn.addEventListener('click', async () => {
+        const loggedInUser = window.localStorage.getItem('userID');
+        if (followBtn.textContent === 'Follow') {
+          if (loggedInUser && post.user_id) {
+            await mockroblog.addFollower(loggedInUser, post.user_id)
+            console.log(`Added follower: ${post.user_id}`)
+            updateTimeline(true, post.user_id)
+          }
+        } else if (followBtn.textContent === 'Unfollow') {
+          if (loggedInUser && post.user_id) {
+            await mockroblog.removeFollower(loggedInUser, post.user_id)
+            console.log(`Removed follower: ${post.user_id}`)
+            updateTimeline(false, post.user_id)
+          }
+        }
+      })
+    }
     posts.appendChild(newPost)
   }
 }

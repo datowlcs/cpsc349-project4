@@ -107,13 +107,17 @@ export async function addFollower(userId, userIdToFollow) {
 
 export async function removeFollower(userId, userIdToStopFollowing) {
   try {
+    const getFollowerObject = await fetch(`http://localhost:5000/followers/?follower_id=${userId}&following_id=${userIdToStopFollowing}`);
+    const jsonObj = await getFollowerObject.json();
+
+
     const data = {
-      id: tableEntry,
+      id: jsonObj.resources[0].id,
       follower_id: userId,
       following_id: userIdToStopFollowing
     }
 
-    const request = await fetch(`localhost:5000/followers/?follower_id=${user_id}&following_id=${following_id}`, {
+    const request = await fetch(`http://localhost:5000/followers/?follower_id=${userId}&following_id=${userIdToStopFollowing}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -124,7 +128,7 @@ export async function removeFollower(userId, userIdToStopFollowing) {
     console.log(request)
 
     return {
-      id: tableEntry,
+      id: data.id,
       follower_id: userId,
       following_id: userIdToStopFollowing
     }
