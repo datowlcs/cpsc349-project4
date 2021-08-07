@@ -76,6 +76,8 @@ userBtn.addEventListener('click', async () => {
     const timeline = await mockroblog.getUserTimeline(user)
     appendPosts(timeline)
   }
+  const polls = await mockroblog.getPolls();
+  console.log(polls);
 })
 
 // Home Timeline Button
