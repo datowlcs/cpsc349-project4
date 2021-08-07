@@ -91,14 +91,23 @@ async function appendPosts(timelineJson) {
   const loggedInUserID = window.localStorage.getItem('userID')
   const followingList = await mockroblog.getFollowing(loggedInUserID);
 
+
+  let promiseLikes = [];
+  for (const tmp of timelineJson) {
+
+  }
+
   let promises = [];
   let uniqueIDs = [];
   for (const tmp of timelineJson) {
+    promiseLikes.push(mockroblog.getLikesByPostID(tmp.id))
     if (uniqueIDs.indexOf(tmp.user_id) == -1) {
       promises.push(mockroblog.getUserName(tmp.user_id));
     }
-  }
 
+  }
+  let likes = await Promise.all(promiseLikes);
+  console.log(likes);
   let users = await Promise.all(promises);
   for (const post of timelineJson) {
     /*
@@ -121,20 +130,26 @@ async function appendPosts(timelineJson) {
         */
     const postUser = users.find(user => user.id === post.user_id);
     const newPost = document.createElement('div')
+    const likesArr = likes.find(likes => (likes.length > 0 && likes[0].post_id === post.id));
+    console.log(likesArr);
+
     newPost.className = 'post-item'
-    newPost.innerHTML = `<div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
+    newPost.innerHTML = `
+        <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
             <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${postUser.username}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
             <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
                 <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(postUser.username)}</h2>
                 <p class="leading-relaxed text-base">${post.text}</p>
                 <a class="mt-3 text-black-500 inline-flex items-center">${post.timestamp}</a>
                 <button class="hyperlink px-8 py-2" id="follow-button"></button>
+                <button class="hyperlink px-8 py-2" id="like-button">Like: ${likesArr ? likesArr.length : "0"}</button>
             </div>
         </div>
         `
 
     // Add follower
     if (postUser.id != window.localStorage.getItem('userID')) {
+      const likeBtn = newPost.children[0].children[1].children[4];
       const followBtn = newPost.children[0].children[1].children[3];
       let isFollowing = followingList.find(follower => follower.following_id === postUser.id);
       if (isFollowing) {
@@ -142,6 +157,10 @@ async function appendPosts(timelineJson) {
       } else {
         followBtn.textContent = "Follow"
       }
+
+      likeBtn.addEventListener('click', async () => {
+        updateLikes(post, likeBtn);
+      });
 
       followBtn.addEventListener('click', async () => {
         const loggedInUser = window.localStorage.getItem('userID');
@@ -180,4 +199,12 @@ async function updateTimeline(follow, username) {
       followBtn.textContent = (follow ? 'Unfollow' : 'Follow')
     }
   }
+}
+
+async function updateLikes(post, likeBtn) {
+  const loggedInUser = window.localStorage.getItem('userID');
+  let likes = await mockroblog.getLikesByPostID(post.id);
+  const likesArr = likes.find(likes => (likes.length > 0 && likes.user_id === loggedInUser));
+  likeBtn.innerHTML = likesArr ? `Unlike: ${likes.length}` : `Like: ${likes.length}`
+
 }

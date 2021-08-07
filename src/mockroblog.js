@@ -71,6 +71,13 @@ export async function getLikes() {
   return likesList.resources;
 }
 
+export async function getLikesByPostID(postID) {
+
+  const response = await fetch(`http://localhost:5000/likes/?post_id=${postID}`)
+  const likesList = await response.json()
+  return likesList.resources;
+}
+
 export async function addFollower(userId, userIdToFollow) {
   try {
     const data = {
