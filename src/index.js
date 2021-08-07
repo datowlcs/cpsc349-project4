@@ -10,6 +10,7 @@ const logoutBtn = document.getElementById('logout-button')
 const pollBtn = document.getElementById('poll-button')
 const pollSubmitBTn = document.getElementById('poll-submit-button')
 
+//Poll Display
 var modal = document.getElementById("myModal");
 pollBtn.addEventListener('click', async () => {
   modal.style.display = "block";
@@ -20,9 +21,19 @@ window.onclick = function (event) {
   }
 }
 
+//Submit Poll
 pollSubmitBTn.addEventListener('click', async () => {
   modal.style.display = "none";
-  alert("Submitted poll")
+  //Odd error check, but just to see if we can post
+  let question = document.getElementById("poll-question").value;
+  let userID = window.localStorage.getItem('userID')
+  console.log(question);
+  console.log(userID);
+  if(question != ''){
+    let questionResponse = await mockroblog.createPoll(userID, question);
+    alert("Submitted poll")
+  }
+  console.log(questionResponse);
 });
 
 window.mockroblog = mockroblog

@@ -264,27 +264,26 @@ export async function postMessage(userId, text) {
   }
 }
 
-export function createPoll(userID, message){
+export async function createPoll(userID, message){
   try {
   const data = {
-    userIDOut: userID,
-    messageOut: message
+    user_id: userID,
+    question: message
   }
 
   const request = await fetch('http://localhost:5000/polls/', {
-    method: 'POST', // or 'PUT'
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
 
-  // console.log(request)
+  console.log(request)
 
   return {
-    id: 2,
-    userIDOut: userID,
-    messageOut: message
+    user_id: userID,
+    question: message
   }
 } catch (err) {
   console.log(err)
