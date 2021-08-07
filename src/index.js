@@ -150,9 +150,24 @@ async function appendPosts(timelineJson) {
         </div>
         `
 
+    //Like a post
+    const likeBtn = newPost.children[0].children[1].children[4];
+    likeBtn.addEventListener('click', async () => {
+
+      const loggedInUser = window.localStorage.getItem('userID')
+      if (likeBtn.textContent.indexOf("Unlike") != -1) { //Is Unlike
+
+        await mockroblog.removeLike(loggedInUser, post.id)
+        updateLikes(post, likeBtn);
+      } else { //Button says Like
+        await mockroblog.addLike(loggedInUser, post.id)
+        updateLikes(post, likeBtn);
+      }
+
+    });
+
     // Add follower
     if (postUser.id != window.localStorage.getItem('userID')) {
-      const likeBtn = newPost.children[0].children[1].children[4];
       const followBtn = newPost.children[0].children[1].children[3];
       let isFollowing = followingList.find(follower => follower.following_id === postUser.id);
       if (isFollowing) {
@@ -161,11 +176,7 @@ async function appendPosts(timelineJson) {
         followBtn.textContent = "Follow"
       }
 
-      likeBtn.addEventListener('click', async () => {
-        const loggedInUser = window.localStorage.getItem('userID')
-        await mockroblog.addLike(loggedInUser, post.id)
-        updateLikes(post, likeBtn);
-      });
+
 
       followBtn.addEventListener('click', async () => {
         const loggedInUser = window.localStorage.getItem('userID');
