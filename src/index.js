@@ -43,7 +43,7 @@ pollSubmitBtn.addEventListener('click', async () => {
 
 window.mockroblog = mockroblog
 onBoot()
-function onBoot () {
+function onBoot() {
   const loggedIn = utility.isLoggedIn()
   if (loggedIn) {
     populateTimeline()
@@ -99,11 +99,11 @@ pollTimelineBtn.addEventListener('click', async () => {
   appendPolls(polls)
 })
 
-async function populateTimeline () {
+async function populateTimeline() {
   appendPosts(await mockroblog.getPublicTimeline())
 }
 
-async function appendPolls (polls) {
+async function appendPolls(polls) {
   const posts = document.querySelector('#post-container')
 
   posts.innerHTML = ''
@@ -119,82 +119,83 @@ async function appendPolls (polls) {
 
     newPoll.className = 'post-item'
 
+    // newPoll.innerHTML = `
+    //     <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
+    //         <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${pollUser.username}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
+    //         <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+    //             <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(pollUser.username)}</h2>
+    //             <p class="leading-relaxed text-base">${poll.poll_question}</p>
+    //             <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" class="poll-option-choice${i}" value="1">
+    //             <label for="poll-${i}-option1">${poll.poll_options[0]} Votes:${optionVotes[0].length}</label><br>
+    //             <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" class="poll-option-choice${i}" value="2">
+    //             <label for="poll-${i}-option2">${poll.poll_options[1]} Votes:${optionVotes[1].length}</label><br>
+    //             <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" class="poll-option-choice${i}" value="3">
+    //             <label for="poll-${i}-option3">${poll.poll_options[2]} Votes:${optionVotes[2].length}</label><br>
+    //             <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4">
+    //             <label for="poll-${i}-option4">${poll.poll_options[3]} Votes:${optionVotes[3].length}</label><br>
+    //             <button class="hyperlink px-8 py-2" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
+    //         </div>
+    //     </div>
+    //     `
+
     newPoll.innerHTML = `
         <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
             <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${pollUser.username}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
             <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
-                <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(pollUser.username)}</h2>
-                <p class="leading-relaxed text-base">${poll.poll_question}</p>
-                <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" class="poll-option-choice${i}" value="1">
-                <label for="poll-${i}-option1">${poll.poll_options[0]} Votes:${optionVotes[0].length}</label><br>
-                <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" class="poll-option-choice${i}" value="2">
-                <label for="poll-${i}-option2">${poll.poll_options[1]} Votes:${optionVotes[1].length}</label><br>
-                <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" class="poll-option-choice${i}" value="3">
-                <label for="poll-${i}-option3">${poll.poll_options[2]} Votes:${optionVotes[2].length}</label><br>
-                <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4">
-                <label for="poll-${i}-option4">${poll.poll_options[3]} Votes:${optionVotes[3].length}</label><br>
-                <button class="hyperlink px-8 py-2" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
+      <section class="text-gray-600 body-font">
+        <div class="">
+          <div class="overflow-auto">
+            <table class="table-auto w-full text-left whitespace-no-wrap">
+            <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(pollUser.username)}</h2>
+              <thead>
+                <tr>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl w-full">${poll.poll_question}</th>
+                  <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="px-4 py-3 w-full"><label for="poll-${i}-option1">${poll.poll_options[0]} Votes:${optionVotes[0].length}</label></td>
+                  <td class="w-10 text-center">
+                  <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" class="poll-option-choice${i}" value="1">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option2">${poll.poll_options[1]} Votes:${optionVotes[1].length}</label></td>
+                  <td class="border-t-2 border-gray-200 w-10 text-center">
+                  <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" class="poll-option-choice${i}" value="2">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option3">${poll.poll_options[2]} Votes:${optionVotes[2].length}</label></td>
+                  <td class="border-t-2 border-gray-200 w-10 text-center">
+                  <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" class="poll-option-choice${i}" value="3">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option4">${poll.poll_options[3]} Votes:${optionVotes[3].length}</label></td>
+                  <td class="border-t-2 border-b-2 border-gray-200 w-10 text-center">
+                  <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
+            <button class="hyperlink px-8 py-2" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
+          </div>
+        </div>
+      </section>
             </div>
         </div>
         `
 
-      //   newPoll.innerHTML = `
-      //   <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
-      //       <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${pollUser.username}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
-      //       <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
-      // <section class="text-gray-600 body-font">
-      //   <div class="">
-      //     <div class="overflow-auto">
-      //       <table class="table-auto w-full text-left whitespace-no-wrap">
-      //       <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(pollUser.username)}</h2>
-      //         <thead>
-      //           <tr>
-      //             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl w-full">${poll.poll_question}</th>
-      //             <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
-      //           </tr>
-      //         </thead>
-      //         <tbody>
-      //           <tr>
-      //             <td class="px-4 py-3 w-full"><label for="poll-${i}-option1">${poll.poll_options[0]} Votes:${optionVotes[0].length}</label></td>
-      //             <td class="w-10 text-center">
-      //             <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" class="poll-option-choice${i}" value="1">
-      //             </td>
-      //           </tr>
-      //           <tr>
-      //             <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option2">${poll.poll_options[1]} Votes:${optionVotes[1].length}</label></td>
-      //             <td class="border-t-2 border-gray-200 w-10 text-center">
-      //             <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" class="poll-option-choice${i}" value="2">
-      //             </td>
-      //           </tr>
-      //           <tr>
-      //             <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option3">${poll.poll_options[2]} Votes:${optionVotes[2].length}</label></td>
-      //             <td class="border-t-2 border-gray-200 w-10 text-center">
-      //             <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" class="poll-option-choice${i}" value="3">
-      //             </td>
-      //           </tr>
-      //           <tr>
-      //             <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option4">${poll.poll_options[3]} Votes:${optionVotes[3].length}</label></td>
-      //             <td class="border-t-2 border-b-2 border-gray-200 w-10 text-center">
-      //             <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4">
-      //             </td>
-      //           </tr>
-      //         </tbody>
-      //       </table>
-      //     </div>
-      //     <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
-      //       <button class="hyperlink px-8 py-2" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
-      //     </div>
-      //   </div>
-      // </section>
-      //       </div>
-      //   </div>
-      //   `
-
     posts.appendChild(newPoll)
     if (!hasVoted) { // if we havent voted
       // Submit poll button
-      const submitPollBtn = newPoll.children[0].children[1].children[14]
-      //const submitPollBtn = newPoll.getElementById("submit-poll-option-button")
+      // const 
+      const submitPollBtn = newPoll.children[0].children[1].children[0].children[0].children[1].children[0]
+      // const submitPollBtn = newPoll.getElementById("submit-poll-option-button")
       submitPollBtn.addEventListener('click', async () => {
         const pollArr = newPoll.getElementsByTagName('input')
         let pollChoice
@@ -215,7 +216,7 @@ async function appendPolls (polls) {
   }
 }
 
-async function appendPosts (timelineJson) {
+async function appendPosts(timelineJson) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
 
@@ -327,7 +328,7 @@ async function appendPosts (timelineJson) {
   }
 }
 
-async function updateTimeline (follow, username) {
+async function updateTimeline(follow, username) {
   const postItems = document.querySelector('#post-container').getElementsByClassName('post-item')
   for (const postItem of postItems) {
     if (postItem.getElementsByClassName('post-username')[0].textContent === username) {
@@ -337,7 +338,7 @@ async function updateTimeline (follow, username) {
   }
 }
 
-async function updateLikes (post, likeBtn) {
+async function updateLikes(post, likeBtn) {
   const loggedInUser = window.localStorage.getItem('userID')
   const likes = await mockroblog.getLikesByPostID(post.id)
   const likedByUser = likes.find(like => (like.user_id == loggedInUser))
