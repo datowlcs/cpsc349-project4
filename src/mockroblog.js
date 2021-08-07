@@ -1,10 +1,10 @@
 /* Mockroblog client API stubs for prototyping */
 export async function createUser(username, email, password) {
+  let url = 'http://localhost:5000/users'
 
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify({
-      id: 4,
       username: username,
       email: email,
       password: password
