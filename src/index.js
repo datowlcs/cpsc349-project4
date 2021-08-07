@@ -9,7 +9,7 @@ const postBtn = document.getElementById('post-button')
 const logoutBtn = document.getElementById('logout-button')
 const pollBtn = document.getElementById('poll-button')
 const pollTimelineBtn = document.getElementById('polls-timeline-button')
-const pollSubmitBTn = document.getElementById('poll-submit-button')
+const pollSubmitBtn = document.getElementById('poll-submit-button')
 
 //Poll Display
 var modal = document.getElementById("myModal");
@@ -23,7 +23,7 @@ window.onclick = function (event) {
 }
 
 //Submit Poll
-pollSubmitBTn.addEventListener('click', async () => {
+pollSubmitBtn.addEventListener('click', async () => {
   modal.style.display = "none";
   //Odd error check, but just to see if we can post
   let question = document.getElementById("poll-question").value;
@@ -65,7 +65,7 @@ postBtn.addEventListener('click', async () => {
     const user = window.localStorage.getItem('userID')
     await mockroblog.postMessage(user, postMsg)
     //window.alert('You have posted a new message.')
-    console.log('You have posted a new message.')
+    // console.log('You have posted a new message.')
   }
 })
 
@@ -95,10 +95,7 @@ publicBtn.addEventListener('click', async () => {
 
 // Poll Timeline Button
 pollTimelineBtn.addEventListener('click', async () => {
-  console.log("button click");
   let polls = await mockroblog.getPolls();
-  console.log("button2 click");
-  // console.log("polls", polls);
   appendPolls(polls)
 })
 
@@ -107,17 +104,17 @@ async function populateTimeline() {
 }
 
 async function appendPolls(polls) {
-  console.log("Appending polls", polls);
   const posts = document.querySelector('#post-container')
 
   posts.innerHTML = ''
   let i = 0;
+  const loggedInUserID = window.localStorage.getItem('userID')
   for (let poll of polls) {
-    console.log("Appending poll", poll);
     let pollUserID = await mockroblog.getUserIDByPollID(poll.poll_id);
     let pollUser = await mockroblog.getUserName(pollUserID);
-
-    console.log("pollUser", pollUser)
+    let pollVotes = await mockroblog.getPollVotes(poll.poll_id);
+    let optionVotes = [pollVotes.filter(pv => pv.option_id == 1), pollVotes.filter(pv => pv.option_id == 2), pollVotes.filter(pv => pv.option_id == 3), pollVotes.filter(pv => pv.option_id == 4)]
+    let hasVoted = pollVotes.find(pv => pv.user_id == loggedInUserID);
     const newPoll = document.createElement('div')
 
     newPoll.className = 'post-item'
@@ -128,22 +125,46 @@ async function appendPolls(polls) {
             <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
                 <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(pollUser.username)}</h2>
                 <p class="leading-relaxed text-base">${poll.poll_question}</p>
-                <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" value="">
-                <label for="poll-${i}-option1">${poll.poll_options[0]}</label><br>
-                <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" value="">
-                <label for="poll-${i}-option2">${poll.poll_options[1]}</label><br>
-                <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" value="">
-                <label for="poll-${i}-option3">${poll.poll_options[2]}</label><br>
-                <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" value="">
-                <label for="poll-${i}-option4">${poll.poll_options[3]}</label><br>
-                <button class="hyperlink px-8 py-2" id="submit-poll-option-button">Submit</button>
-
+                <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" class="poll-option-choice${i}" value="1">
+                <label for="poll-${i}-option1">${poll.poll_options[0]} Votes:${optionVotes[0].length}</label><br>
+                <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" class="poll-option-choice${i}" value="2">
+                <label for="poll-${i}-option2">${poll.poll_options[1]} Votes:${optionVotes[1].length}</label><br>
+                <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" class="poll-option-choice${i}" value="3">
+                <label for="poll-${i}-option3">${poll.poll_options[2]} Votes:${optionVotes[2].length}</label><br>
+                <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4">
+                <label for="poll-${i}-option4">${poll.poll_options[3]} Votes:${optionVotes[3].length}</label><br>
+                <button class="hyperlink px-8 py-2" id="submit-poll-option-button">${hasVoted ? "" : "Submit"}</button>
             </div>
         </div>
         `
+
     posts.appendChild(newPoll)
+    if (!hasVoted) {//if we havent voted
+      //Submit poll button
+      const submitPollBtn = newPoll.children[0].children[1].children[14];
+      submitPollBtn.addEventListener('click', async () => {
+        let pollArr = newPoll.getElementsByTagName("input");
+        let pollChoice;
+        for (let z = 0; z < pollArr.length; z++) {
+
+          if (pollArr[z].checked) {
+            pollChoice = pollArr[z];
+            // console.log("Final choice", pollChoice.value)
+            let result = await mockroblog.voteOnPoll(poll.poll_id, loggedInUserID, pollChoice.value)
+            if (result) {
+              console.log(result);
+              // submitPollBtn.innerHTML = ""
+            }
+
+
+          }
+        }
+
+
+
+      });
+    }
     i++;
-    console.log("New child")
   }
 
 }
@@ -156,9 +177,6 @@ async function appendPosts(timelineJson) {
   const followingList = await mockroblog.getFollowing(loggedInUserID);
 
   let promiseLikes = [];
-  for (const tmp of timelineJson) {
-
-  }
 
   let promises = [];
   let uniqueIDs = [];
@@ -200,7 +218,6 @@ async function appendPosts(timelineJson) {
     if (likesArr) {
       likedByUser = likesArr.find(l => l.user_id == loggedInUserID);
     }
-    console.log("myUserLikes", likedByUser);
 
     newPost.className = 'post-item'
     newPost.innerHTML = `

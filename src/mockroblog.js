@@ -129,7 +129,7 @@ export async function addLike(userId, postId) {
       body: JSON.stringify(data)
     })
 
-    console.log(request)
+    // console.log(request)
 
     return {
       id: 6,
@@ -332,6 +332,60 @@ export async function getPolls() {
   }
 
 }
+
+export async function voteOnPoll(pollID, userID, option_id) {
+  // let pollOptionsArray = await fetch(`http://localhost:5000/poll_votes/?poll_id=${pollID}`);
+  try {
+    const data = {
+      poll_id: pollID,
+      user_id: userID,
+      option_id: option_id
+    }
+
+    const request = await fetch(`http://localhost:5000/poll_votes/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    let json = await request.json();
+    return json;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+export async function getPollVotes(pollID) {
+  try {
+    let pollOptionsArray = await fetch(`http://localhost:5000/poll_votes/?poll_id=${pollID}`);
+    let pollVotesList = await pollOptionsArray.json();
+
+    return pollVotesList.resources;
+
+    // console.log(pollsList)
+
+    // for (let poll of pollsList.resources) {
+    //   let pollOptionsArray = await fetch(`http://localhost:5000/poll_options/?poll_id=${poll.id}`);
+    //   let pollOptionsList = await pollOptionsArray.json();
+    //   let optionsAr = [];
+    //   for (let option of pollOptionsList.resources) {
+    //     optionsAr.push(option.text);
+    //   }
+    //   result.push({
+    //     poll_id: poll.id,
+    //     poll_question: poll.question,
+    //     poll_options: optionsAr,
+    //   })
+    // }
+  } catch (err) {
+    console.log(err)
+    return [];
+  }
+
+}
+
 //Return an array of all polls, poll_id, poll_question, poll_options
 //if poll is empty, return an error or empty array
 
