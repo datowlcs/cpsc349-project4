@@ -4,7 +4,7 @@ const loginButton = document.getElementById('loginButton')
 loginButton.addEventListener('click', async () => {
   const username = document.getElementById('usernameN').value
   const password = document.getElementById('passwordN').value
-  let user = await mockroblog.authenticateUser(username, password)
+  const user = await mockroblog.authenticateUser(username, password)
   if (user) {
     if (user.username == username) {
       window.localStorage.setItem('userID', user.id)
@@ -14,8 +14,7 @@ loginButton.addEventListener('click', async () => {
       window.location.replace(`${document.URL.substr(0, document.URL.lastIndexOf('/'))}/index.html`)
     }
     // "Omitted error check cause it was breaking something"
-  }
-  else {
+  } else {
     console.log(username, password, user)
     window.alert('Login failed.')
   }

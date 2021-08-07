@@ -11,39 +11,39 @@ const pollBtn = document.getElementById('poll-button')
 const pollTimelineBtn = document.getElementById('polls-timeline-button')
 const pollSubmitBtn = document.getElementById('poll-submit-button')
 
-//Poll Display
-var modal = document.getElementById("myModal");
+// Poll Display
+const modal = document.getElementById('myModal')
 pollBtn.addEventListener('click', async () => {
-  modal.style.display = "block";
+  modal.style.display = 'block'
 })
 window.onclick = function (event) {
   if (event.target == modal) {
-    modal.style.display = "none";
+    modal.style.display = 'none'
   }
 }
 
-//Submit Poll
+// Submit Poll
 pollSubmitBtn.addEventListener('click', async () => {
-  modal.style.display = "none";
-  //Odd error check, but just to see if we can post
-  let question = document.getElementById("poll-question").value;
-  let answer1 = document.getElementById("answer-1").value;
-  let answer2 = document.getElementById("answer-2").value;
-  let answer3 = document.getElementById("answer-3").value;
-  let answer4 = document.getElementById("answer-4").value;
-  let userID = window.localStorage.getItem('userID')
-  console.log(question);
-  console.log(userID);
+  modal.style.display = 'none'
+  // Odd error check, but just to see if we can post
+  const question = document.getElementById('poll-question').value
+  const answer1 = document.getElementById('answer-1').value
+  const answer2 = document.getElementById('answer-2').value
+  const answer3 = document.getElementById('answer-3').value
+  const answer4 = document.getElementById('answer-4').value
+  const userID = window.localStorage.getItem('userID')
+  console.log(question)
+  console.log(userID)
   if (question != '') {
-    let questionResponse = await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4]);
-    alert("Submitted poll")
+    const questionResponse = await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4])
+    alert('Submitted poll')
   }
   // console.log(questionResponse);
-});
+})
 
 window.mockroblog = mockroblog
 onBoot()
-function onBoot() {
+function onBoot () {
   const loggedIn = utility.isLoggedIn()
   if (loggedIn) {
     populateTimeline()
@@ -64,7 +64,7 @@ postBtn.addEventListener('click', async () => {
   if (postMsg !== '' && postMsg !== null) {
     const user = window.localStorage.getItem('userID')
     await mockroblog.postMessage(user, postMsg)
-    //window.alert('You have posted a new message.')
+    // window.alert('You have posted a new message.')
     // console.log('You have posted a new message.')
   }
 })
@@ -72,7 +72,7 @@ postBtn.addEventListener('click', async () => {
 // User Timeline Button
 userBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
-  console.log(user);
+  console.log(user)
   if (user) {
     const timeline = await mockroblog.getUserTimeline(user)
     appendPosts(timeline)
@@ -95,26 +95,26 @@ publicBtn.addEventListener('click', async () => {
 
 // Poll Timeline Button
 pollTimelineBtn.addEventListener('click', async () => {
-  let polls = await mockroblog.getPolls();
+  const polls = await mockroblog.getPolls()
   appendPolls(polls)
 })
 
-async function populateTimeline() {
+async function populateTimeline () {
   appendPosts(await mockroblog.getPublicTimeline())
 }
 
-async function appendPolls(polls) {
+async function appendPolls (polls) {
   const posts = document.querySelector('#post-container')
 
   posts.innerHTML = ''
-  let i = 0;
+  let i = 0
   const loggedInUserID = window.localStorage.getItem('userID')
-  for (let poll of polls) {
-    let pollUserID = await mockroblog.getUserIDByPollID(poll.poll_id);
-    let pollUser = await mockroblog.getUserName(pollUserID);
-    let pollVotes = await mockroblog.getPollVotes(poll.poll_id);
-    let optionVotes = [pollVotes.filter(pv => pv.option_id == 1), pollVotes.filter(pv => pv.option_id == 2), pollVotes.filter(pv => pv.option_id == 3), pollVotes.filter(pv => pv.option_id == 4)]
-    let hasVoted = pollVotes.find(pv => pv.user_id == loggedInUserID);
+  for (const poll of polls) {
+    const pollUserID = await mockroblog.getUserIDByPollID(poll.poll_id)
+    const pollUser = await mockroblog.getUserName(pollUserID)
+    const pollVotes = await mockroblog.getPollVotes(poll.poll_id)
+    const optionVotes = [pollVotes.filter(pv => pv.option_id == 1), pollVotes.filter(pv => pv.option_id == 2), pollVotes.filter(pv => pv.option_id == 3), pollVotes.filter(pv => pv.option_id == 4)]
+    const hasVoted = pollVotes.find(pv => pv.user_id == loggedInUserID)
     const newPoll = document.createElement('div')
 
     newPoll.className = 'post-item'
@@ -133,63 +133,55 @@ async function appendPolls(polls) {
                 <label for="poll-${i}-option3">${poll.poll_options[2]} Votes:${optionVotes[2].length}</label><br>
                 <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4">
                 <label for="poll-${i}-option4">${poll.poll_options[3]} Votes:${optionVotes[3].length}</label><br>
-                <button class="hyperlink px-8 py-2" id="submit-poll-option-button">${hasVoted ? "" : "Submit"}</button>
+                <button class="hyperlink px-8 py-2" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
             </div>
         </div>
         `
 
     posts.appendChild(newPoll)
-    if (!hasVoted) {//if we havent voted
-      //Submit poll button
-      const submitPollBtn = newPoll.children[0].children[1].children[14];
+    if (!hasVoted) { // if we havent voted
+      // Submit poll button
+      const submitPollBtn = newPoll.children[0].children[1].children[14]
       submitPollBtn.addEventListener('click', async () => {
-        let pollArr = newPoll.getElementsByTagName("input");
-        let pollChoice;
+        const pollArr = newPoll.getElementsByTagName('input')
+        let pollChoice
         for (let z = 0; z < pollArr.length; z++) {
-
           if (pollArr[z].checked) {
-            pollChoice = pollArr[z];
+            pollChoice = pollArr[z]
             // console.log("Final choice", pollChoice.value)
-            let result = await mockroblog.voteOnPoll(poll.poll_id, loggedInUserID, pollChoice.value)
+            const result = await mockroblog.voteOnPoll(poll.poll_id, loggedInUserID, pollChoice.value)
             if (result) {
-              console.log(result);
+              console.log(result)
               // submitPollBtn.innerHTML = ""
             }
-
-
           }
         }
-
-
-
-      });
+      })
     }
-    i++;
+    i++
   }
-
 }
 
-async function appendPosts(timelineJson) {
+async function appendPosts (timelineJson) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
 
   const loggedInUserID = window.localStorage.getItem('userID')
-  const followingList = await mockroblog.getFollowing(loggedInUserID);
+  const followingList = await mockroblog.getFollowing(loggedInUserID)
 
-  let promiseLikes = [];
+  const promiseLikes = []
 
-  let promises = [];
-  let uniqueIDs = [];
+  const promises = []
+  const uniqueIDs = []
   for (const tmp of timelineJson) {
     promiseLikes.push(mockroblog.getLikesByPostID(tmp.id))
     if (uniqueIDs.indexOf(tmp.user_id) == -1) {
-      promises.push(mockroblog.getUserName(tmp.user_id));
+      promises.push(mockroblog.getUserName(tmp.user_id))
     }
-
   }
-  let likes = await Promise.all(promiseLikes);
-  console.log(likes);
-  let users = await Promise.all(promises);
+  const likes = await Promise.all(promiseLikes)
+  console.log(likes)
+  const users = await Promise.all(promises)
   for (const post of timelineJson) {
     /*
                 <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
@@ -209,14 +201,14 @@ async function appendPosts(timelineJson) {
                     </div>
                 </div>
         */
-    const postUser = users.find(user => user.id === post.user_id);
+    const postUser = users.find(user => user.id === post.user_id)
     const newPost = document.createElement('div')
 
-    const likesArr = likes.find(likes => (likes.length > 0 && likes[0].post_id === post.id));
-    let likedByUser;
+    const likesArr = likes.find(likes => (likes.length > 0 && likes[0].post_id === post.id))
+    let likedByUser
 
     if (likesArr) {
-      likedByUser = likesArr.find(l => l.user_id == loggedInUserID);
+      likedByUser = likesArr.find(l => l.user_id == loggedInUserID)
     }
 
     newPost.className = 'post-item'
@@ -228,53 +220,46 @@ async function appendPosts(timelineJson) {
                 <p class="leading-relaxed text-base">${post.text}</p>
                 <a class="mt-3 text-black-500 inline-flex items-center">${post.timestamp}</a>
                 <button class="hyperlink px-8 py-2" id="follow-button"></button>
-                <button class="hyperlink px-8 py-2" id="like-button">${likedByUser ? "Unlike" : "Like"}: ${likesArr ? likesArr.length : "0"}</button>
+                <button class="hyperlink px-8 py-2" id="like-button">${likedByUser ? 'Unlike' : 'Like'}: ${likesArr ? likesArr.length : '0'}</button>
             </div>
         </div>
         `
 
-    //Like a post
-    const likeBtn = newPost.children[0].children[1].children[4];
+    // Like a post
+    const likeBtn = newPost.children[0].children[1].children[4]
     likeBtn.addEventListener('click', async () => {
-
       const loggedInUser = window.localStorage.getItem('userID')
-      if (likeBtn.textContent.indexOf("Unlike") != -1) { //Is Unlike
-
+      if (likeBtn.textContent.indexOf('Unlike') != -1) { // Is Unlike
         await mockroblog.removeLike(loggedInUser, post.id)
-        updateLikes(post, likeBtn);
-      } else { //Button says Like
+        updateLikes(post, likeBtn)
+      } else { // Button says Like
         await mockroblog.addLike(loggedInUser, post.id)
-        updateLikes(post, likeBtn);
+        updateLikes(post, likeBtn)
       }
-
-    });
+    })
 
     // Add follower
     if (postUser.id != window.localStorage.getItem('userID')) {
-      const followBtn = newPost.children[0].children[1].children[3];
-      let isFollowing = followingList.find(follower => follower.following_id === postUser.id);
+      const followBtn = newPost.children[0].children[1].children[3]
+      const isFollowing = followingList.find(follower => follower.following_id === postUser.id)
       if (isFollowing) {
-        followBtn.textContent = "Unfollow";
+        followBtn.textContent = 'Unfollow'
       } else {
-        followBtn.textContent = "Follow"
+        followBtn.textContent = 'Follow'
       }
 
-
-
       followBtn.addEventListener('click', async () => {
-        const loggedInUser = window.localStorage.getItem('userID');
+        const loggedInUser = window.localStorage.getItem('userID')
         if (followBtn.textContent === 'Follow') {
           if (loggedInUser && post.user_id) {
             try {
               await mockroblog.addFollower(loggedInUser, post.user_id)
               console.log(`Added follower: ${post.user_id}`)
-              followBtn.textContent = "Follow"
+              followBtn.textContent = 'Follow'
               updateTimeline(true, postUser.username)
-            }
-            catch (err) {
+            } catch (err) {
               console.log(err)
             }
-
           }
         } else if (followBtn.textContent === 'Unfollow') {
           if (loggedInUser && post.user_id) {
@@ -289,7 +274,7 @@ async function appendPosts(timelineJson) {
   }
 }
 
-async function updateTimeline(follow, username) {
+async function updateTimeline (follow, username) {
   const postItems = document.querySelector('#post-container').getElementsByClassName('post-item')
   for (const postItem of postItems) {
     if (postItem.getElementsByClassName('post-username')[0].textContent === username) {
@@ -299,12 +284,11 @@ async function updateTimeline(follow, username) {
   }
 }
 
-async function updateLikes(post, likeBtn) {
-  const loggedInUser = window.localStorage.getItem('userID');
-  let likes = await mockroblog.getLikesByPostID(post.id);
-  const likedByUser = likes.find(like => (like.user_id == loggedInUser));
-  console.log("Updating likes on post:", `${likes ? likes.length : "no likes"}`)
+async function updateLikes (post, likeBtn) {
+  const loggedInUser = window.localStorage.getItem('userID')
+  const likes = await mockroblog.getLikesByPostID(post.id)
+  const likedByUser = likes.find(like => (like.user_id == loggedInUser))
+  console.log('Updating likes on post:', `${likes ? likes.length : 'no likes'}`)
 
-  likeBtn.innerHTML = `${likedByUser ? "Unlike" : "Like"}: ${likes ? likes.length : "0"}`
-
+  likeBtn.innerHTML = `${likedByUser ? 'Unlike' : 'Like'}: ${likes ? likes.length : '0'}`
 }
