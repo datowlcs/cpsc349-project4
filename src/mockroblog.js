@@ -290,31 +290,42 @@ export async function postMessage(userId, text) {
   }
 }
 
-export async function createPoll(userID, message){
+export async function createPoll(userID, message, optionsArr) {
   try {
-  const data = {
-    user_id: userID,
-    question: message
+    const data = {
+      user_id: userID,
+      question: message
+    }
+
+    const request = await fetch('http://localhost:5000/polls/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    let json = await request.json();
+    console.log("json", json)
+    console.log("options", optionsArr)
+    for (let option of optionsArr) {
+
+      const optionsData = {
+        poll_id: json.id,
+        text: option
+      }
+      const optionsRequest = await fetch('http://localhost:5000/poll_options/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(optionsData)
+      })
+    }
+    return json;
+  } catch (err) {
+    console.log(err)
+    return null;
   }
-
-  const request = await fetch('http://localhost:5000/polls/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-
-  console.log(request)
-
-  return {
-    user_id: userID,
-    question: message
-  }
-} catch (err) {
-  console.log(err)
-  throw err
-}
 
 
 }
