@@ -303,3 +303,41 @@ export async function createPoll(userID, message, optionsArr) {
 
 
 }
+
+export async function getPolls() {
+  try {
+    let polls = await fetch("http://localhost:5000/polls")
+    let result = [];
+    let pollsList = await polls.json();
+
+    console.log(pollsList)
+
+    for (let poll of pollsList.resources) {
+      let pollOptionsArray = await fetch(`http://localhost:5000/poll_options/?poll_id=${poll.id}`);
+      let pollOptionsList = await pollOptionsArray.json();
+      let optionsAr = [];
+      for (let option of pollOptionsList.resources) {
+        optionsAr.push(option.text);
+      }
+      result.push({
+        poll_id: poll.id,
+        poll_question: poll.text,
+        poll_options: optionsAr,
+      })
+    }
+    return result;
+  } catch (err) {
+    console.log(err)
+    return null;
+  }
+
+}
+//Return an array of all polls, poll_id, poll_question, poll_options
+//if poll is empty, return an error or empty array
+
+export async function getUserIDByPollID(pollID) {
+
+  const response = await fetch(`http://localhost:5000/polls/?id=${pollID}`)
+  const userObj = await response.json()
+  return userObj.user_id;
+}
