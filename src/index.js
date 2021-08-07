@@ -8,7 +8,7 @@ const publicBtn = document.getElementById('public-button')
 const postBtn = document.getElementById('post-button')
 const logoutBtn = document.getElementById('logout-button')
 const pollBtn = document.getElementById('poll-button')
-const pollTimelineBtn = document.getElementById('poll-timline-button')
+const pollTimelineBtn = document.getElementById('polls-timeline-button')
 const pollSubmitBTn = document.getElementById('poll-submit-button')
 
 //Poll Display
@@ -77,8 +77,8 @@ userBtn.addEventListener('click', async () => {
     const timeline = await mockroblog.getUserTimeline(user)
     appendPosts(timeline)
   }
-  const polls = await mockroblog.getPolls();
-  console.log(polls);
+  // const polls = await mockroblog.getPolls();
+  // console.log(polls);
 })
 
 // Home Timeline Button
@@ -96,8 +96,9 @@ publicBtn.addEventListener('click', async () => {
 })
 
 // Poll Timeline Button
-pollSubmitBTn.addEventListener('click', async () => {
+pollTimelineBtn.addEventListener('click', async () => {
   let polls = await mockroblog.getPolls();
+  console.log("polls", polls);
   appendPolls(polls)
 })
 
@@ -109,9 +110,10 @@ async function appendPolls(polls) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
   for (let poll of polls) {
-    let pollUserID = await mockroblog.getUserIDByPollID(poll.id);
+    let pollUserID = await mockroblog.getUserIDByPollID(poll.poll_id);
     let pollUser = await mockroblog.getUserName(pollUserID);
 
+    console.log("pollUser", pollUser)
     const newPoll = document.createElement('div')
 
     newPoll.className = 'post-item'
@@ -121,19 +123,21 @@ async function appendPolls(polls) {
             <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${pollUser.username}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
             <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
                 <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(postUser.username)}</h2>
-                <p class="leading-relaxed text-base">${poll.question}</p>
-                <p class="leading-relaxed text-base">${poll.answer1}</p>
-                <input type="radio" id="html" name="fav_language" value="HTML">
-                <p class="leading-relaxed text-base">${poll.answer2}</p>
-                <input type="radio" id="html" name="fav_language" value="HTML">
-                <p class="leading-relaxed text-base">${poll.answer3}</p>
-                <input type="radio" id="html" name="fav_language" value="HTML">
-                <p class="leading-relaxed text-base">${poll.answer4}</p>
+                <p class="leading-relaxed text-base">${poll.poll_question}</p>
+                <input type="radio" id="poll-option1" name="poll-option-choice" value="">
+                <label for="poll-option1">${poll.poll_options[0]}</label><br>
+                <input type="radio" id="poll-option2" name="poll-option-choice" value="">
+                <label for="poll-option2">${poll.poll_options[1]}</label><br>
+                <input type="radio" id="poll-option3" name="poll-option-choice" value="">
+                <label for="poll-option3">${poll.poll_options[2]}</label><br>
+                <input type="radio" id="poll-option4" name="poll-option-choice" value="">
+                <label for="poll-option4">${poll.poll_options[3]}</label><br>
                 <button class="hyperlink px-8 py-2" id="submit-poll-option-button">Submit</button>
 
             </div>
         </div>
         `
+    posts.appendChild(newPoll)
   }
 
 }

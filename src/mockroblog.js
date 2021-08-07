@@ -135,11 +135,11 @@ export async function addLike(userId, postId) {
       id: 6,
       user_id: userId,
       post_id: postId
-      }
-    } catch (err) {
-      console.log(err)
-      //throw err
     }
+  } catch (err) {
+    console.log(err)
+    //throw err
+  }
 }
 
 export async function removeFollower(userId, userIdToStopFollowing) {
@@ -310,7 +310,7 @@ export async function getPolls() {
     let result = [];
     let pollsList = await polls.json();
 
-    console.log(pollsList)
+    // console.log(pollsList)
 
     for (let poll of pollsList.resources) {
       let pollOptionsArray = await fetch(`http://localhost:5000/poll_options/?poll_id=${poll.id}`);
@@ -321,7 +321,7 @@ export async function getPolls() {
       }
       result.push({
         poll_id: poll.id,
-        poll_question: poll.text,
+        poll_question: poll.question,
         poll_options: optionsAr,
       })
     }
