@@ -157,32 +157,32 @@ async function appendPolls(polls) {
                 <tr>
                   <td class="px-4 py-3 w-full"><label for="poll-${i}-option1">${poll.poll_options[0]} Votes:${optionVotes[0].length}</label></td>
                   <td class="w-10 text-center">
-                  <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" class="poll-option-choice${i}" value="1">
+                  <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" class="poll-option-choice${i}" value="1" ${hasVoted ? 'disabled' : ''}>
                   </td>
                 </tr>
                 <tr>
                   <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option2">${poll.poll_options[1]} Votes:${optionVotes[1].length}</label></td>
                   <td class="border-t-2 border-gray-200 w-10 text-center">
-                  <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" class="poll-option-choice${i}" value="2">
+                  <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" class="poll-option-choice${i}" value="2" ${hasVoted ? 'disabled' : ''}>
                   </td>
                 </tr>
                 <tr>
                   <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option3">${poll.poll_options[2]} Votes:${optionVotes[2].length}</label></td>
                   <td class="border-t-2 border-gray-200 w-10 text-center">
-                  <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" class="poll-option-choice${i}" value="3">
+                  <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" class="poll-option-choice${i}" value="3" ${hasVoted ? 'disabled' : ''}>
                   </td>
                 </tr>
                 <tr>
                   <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option4">${poll.poll_options[3]} Votes:${optionVotes[3].length}</label></td>
                   <td class="border-t-2 border-b-2 border-gray-200 w-10 text-center">
-                  <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4">
+                  <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4" ${hasVoted ? 'disabled' : ''}>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
-            <button class="submit-btn hyperlink flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
+            <button class="${hasVoted ? 'bg-gray-500' : 'bg-indigo-500 hover:bg-indigo-600 hyperlink'} submit-btn flex ml-auto text-white border-0 py-2 px-6 focus:outline-none rounded" id="submit-poll-option-button">${hasVoted ? 'Already Voted' : 'Vote'}</button>
           </div>
         </div>
       </section>
@@ -193,11 +193,7 @@ async function appendPolls(polls) {
     posts.appendChild(newPoll)
     if (!hasVoted) { // if we havent voted
       // Submit poll button
-      // const 
       const submitPollBtn = newPoll.getElementsByClassName("submit-btn").item(0);
-      // console.log(submitPollBtn);
-      // const submitPollBtn = newPoll.children[0].children[1].children[0].children[0].children[1].children[0]
-      // const submitPollBtn = newPoll.getElementById("submit-poll-option-button")
       submitPollBtn.addEventListener('click', async () => {
         const pollArr = newPoll.getElementsByTagName('input')
         let pollChoice
