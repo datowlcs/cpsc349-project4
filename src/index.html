@@ -7,6 +7,22 @@
         <!-- <link rel="stylesheet" href="./styles/tailwind.css"> -->
         <!-- <script type="module" src="./scripts/initTimeline.js"></script>
         <script type="module" src="./scripts/login.js"></script> -->
+        <style>
+          /* The Modal (background) */
+          .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+          }
+          </style>
     </head>
     <body>
         <div class="logo">
@@ -17,7 +33,22 @@
             <a class="hyperlink bold-large block bg-gray-200 px-4 py-2 w-40 text-center" href="./about.html">About Us</a>
             <button class="hyperlink bold-large block bg-gray-100 px-4 py-2 w-40" id="logout-button">Log Out</button>
         </div>
-
+        <div id="myModal" class="modal">
+          <div class="modal-container bg-gray-200">
+            <h1 class="poll-header">Create your Poll</h1>
+            <label for="poll-question">Question:</label>
+            <input type="text" class="poll-question" id="poll-question" name="poll-question"><br><br>
+            <label for="answer1">Answer 1:</label>
+            <input type="text" class="poll-answer" id="answer-1" name="answer1"><br><br>
+            <label for="answer2">Answer 2:</label>
+            <input type="text" class="poll-answer" id="answer-2" name="answer2"><br><br>
+            <label for="answer3">Answer 3:</label>
+            <input type="text" class="poll-answer" id="answer-3" name="answer3"><br><br>
+            <label for="answer4">Answer 4:</label>
+            <input type="text" class="poll-answer" id="answer-4" name="answer4"><br><br>
+            <button class="poll-submit" id="poll-submit-button">Submit</button>
+          </div>
+        </div>
         <div class="timeline-header">
           <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
               <button class="hyperlink bold-large bg-gray-200 px-8 py-2" id="user-button">User Timeline</button>

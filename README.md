@@ -98,7 +98,7 @@ Note that `6` is the `id` of the entry in the `followers` table, not the `user_i
 | Operation                    | HTTP Method | URL                            |
 |------------------------------|-------------|---------------------------------------------------------------------|
 | Retrieve a user's timeline   | GET         | `http://localhost:5000/posts/?user_id=2&sort=-timestamp`            |
-| Retrieve the public timeline | GET         | `http://localhost:5000/posts/sort=-timestamp`                       |
+| Retrieve the public timeline | GET         | `http://localhost:5000/posts/?sort=-timestamp`                       |
 | Search posts for a hashtag   | GET         | `http://localhost:5000/posts/?text=%%%%23cpsc315%%&sort=-timestamp` |
 | Post a new message           | POST        | `http://localhost:5000/posts/`                                      |
 

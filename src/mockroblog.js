@@ -52,14 +52,30 @@ export async function getUserName(userID) {
   return user.resources[0];
 }
 
+export async function getFollowing(userID) {
+  const response = await fetch(`http://localhost:5000/followers/?follower_id=${userID}`)
+  const followingList = await response.json()
+  return followingList.resources;
+}
+
 export async function getFollowers(userID) {
-  const response = await fetch('http://localhost:5000/followers/')
+  const response = await fetch(`http://localhost:5000/followers/?following_id=${userID}`)
   const followerList = await response.json()
+  return followerList.resources;
+
 }
 
 export async function getLikes() {
   const response = await fetch('http://localhost:5000/likes/')
   const likesList = await response.json()
+  return likesList.resources;
+}
+
+export async function getLikesByPostID(postID) {
+
+  const response = await fetch(`http://localhost:5000/likes/?post_id=${postID}`)
+  const likesList = await response.json()
+  return likesList.resources;
 }
 
 export async function addFollower(userId, userIdToFollow) {
@@ -86,7 +102,7 @@ export async function addFollower(userId, userIdToFollow) {
     }
   } catch (err) {
     console.log(err)
-    throw err
+    //throw err
   }
 
   // if (userId > 3) {
@@ -98,16 +114,15 @@ export async function addFollower(userId, userIdToFollow) {
   // }
 }
 
-export async function removeFollower(userId, userIdToStopFollowing) {
+export async function addLike(userId, postId) {
   try {
     const data = {
-      id: tableEntry,
-      follower_id: userId,
-      following_id: userIdToStopFollowing
+      user_id: userId,
+      post_id: postId
     }
 
-    const request = await fetch(`localhost:5000/followers/?follower_id=${user_id}&following_id=${following_id}`, {
-      method: 'DELETE',
+    const request = await fetch('http://localhost:5000/likes/', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -117,7 +132,39 @@ export async function removeFollower(userId, userIdToStopFollowing) {
     console.log(request)
 
     return {
-      id: tableEntry,
+      id: 6,
+      user_id: userId,
+      post_id: postId
+      }
+    } catch (err) {
+      console.log(err)
+      //throw err
+    }
+}
+
+export async function removeFollower(userId, userIdToStopFollowing) {
+  try {
+    const getFollowerObject = await fetch(`http://localhost:5000/followers/?follower_id=${userId}&following_id=${userIdToStopFollowing}`);
+    const jsonObj = await getFollowerObject.json();
+
+    const data = {
+      id: jsonObj.resources[0].id,
+      follower_id: userId,
+      following_id: userIdToStopFollowing
+    }
+
+    const request = await fetch(`http://localhost:5000/followers/${data.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    //console.log(request)
+
+    return {
+      id: data.id,
       follower_id: userId,
       following_id: userIdToStopFollowing
     }
@@ -135,15 +182,15 @@ export async function getUser(username) {
 
 export async function getUserTimeline(username) {
   const user = await getUser(username)
-  console.log(user);
-  const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}`)
+  // console.log(user);
+  const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}&sort=-timestamp`)
 
   const userTimeline = await response.json()
   return userTimeline.resources
 }
 
 export async function getPublicTimeline() {
-  const response = await fetch('http://localhost:5000/posts/')
+  const response = await fetch('http://localhost:5000/posts/?sort=-timestamp')
 
   const json = await response.json()
 
@@ -153,13 +200,13 @@ export async function getPublicTimeline() {
 //Home timeline is everyone the current logged in user is following. All of their posts.
 export async function getHomeTimeline(username) {
   let loggedInUser = await getUser(username);
-  console.log(loggedInUser);
+  // console.log(loggedInUser);
   const response = await fetch(`http://localhost:5000/followers/?follower_id=${loggedInUser.id}`);
   const followingList = await response.json();
   //get posts of all followingUsers
   let promises = [];
   for (let follower of followingList.resources) {
-    const response = await fetch(`http://localhost:5000/posts/?user_id=${(follower.following_id)}`)
+    const response = await fetch(`http://localhost:5000/posts/?user_id=${(follower.following_id)}&sort=-timestamp`)
     promises.push(response);
 
   }
@@ -176,84 +223,44 @@ export async function getHomeTimeline(username) {
       allPosts.push(resource);
     }
   }
+
+  //https://stackoverflow.com/questions/7555025/fastest-way-to-sort-an-array-by-timestamp
+  allPosts.sort(function (x, y) {
+    return new Date(y.timestamp).getTime() - new Date(x.timestamp).getTime()
+  });
   // console.log(allPosts);
 
 
 
   return allPosts
-  switch (username) {
-    case 'ProfAvery':
-      return [
-        {
-          id: 5,
-          user_id: 2,
-          text: "I keep seeing video from before COVID, of people not needing to mask or distance, and doing something like waiting in line at Burger King. YOU'RE WASTING IT!",
-          timestamp: '2021-07-24 05:10:12'
-        },
-        {
-          id: 4,
-          user_id: 2,
-          text: 'If academia were a video game, then a 2.5 hour administrative meeting that votes to extend time 15 minutes is a fatality. FINISH HIM',
-          timestamp: '2021-07-24 05:08:12'
-        },
-        {
-          id: 6,
-          user_id: 3,
-          text: '#cpsc315 #engr190w NeurIPS is $25 for students and $100 for non-students this year! https://medium.com/@NeurIPSConf/neurips-registration-opens-soon-67111581de99',
-          timestamp: '2021-07-24 05:07:12'
-        }
-      ]
-    case 'KevinAWortman':
-      return [
-        {
-          id: 2,
-          user_id: 1,
-          text: 'FYI: https://www.levels.fyi/still-hiring/',
-          timestamp: '2021-07-24 05:11:12'
-        },
-        {
-          id: 3,
-          user_id: 1,
-          text: 'Yes, the header file ends in .h. C++ is for masochists.',
-          timestamp: '2021-07-24 05:09:12'
-        },
-        {
-          id: 6,
-          user_id: 3,
-          text: '#cpsc315 #engr190w NeurIPS is $25 for students and $100 for non-students this year! https://medium.com/@NeurIPSConf/neurips-registration-opens-soon-67111581de99',
-          timestamp: '2021-07-24 05:07:12'
-        },
-        {
-          id: 1,
-          user_id: 1,
-          text: 'Meanwhile, at the R1 institution down the street... https://uci.edu/coronavirus/messages/200710-sanitizer-recall.php',
-          timestamp: '2021-07-24 05:06:12'
-        }
-      ]
-    case 'Beth_CSUF':
-      return getUserTimeline('KevinAWortman')
-    default:
-      return []
-  }
 }
 
-export function postMessage(userId, text) {
-  if (userId > 3) {
-    const now = new Date()
-    const timestamp =
-      now.getUTCFullYear() + '-' +
-      String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
-      String(now.getUTCDate()).padStart(2, '0') + ' ' +
-      String(now.getUTCHours()).padStart(2, '0') + ':' +
-      String(now.getUTCMinutes()).padStart(2, '0') + ':' +
-      String(now.getUTCSeconds()).padStart(2, '0')
+export async function postMessage(userId, text) {
+
+  try {
+    const data = {
+      user_id: userId,
+      text: text
+    };
+
+    const request = await fetch('http://localhost:5000/posts/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    console.log(request)
 
     return {
-      id: 7,
+      id: 6,
       user_id: userId,
-      text: text,
-      timestamp: timestamp
+      user_text: text
     }
+  } catch (err) {
+    console.log(err)
+    throw err
   }
 }
 
