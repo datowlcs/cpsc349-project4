@@ -256,3 +256,7 @@ export function postMessage(userId, text) {
     }
   }
 }
+
+export function createPoll(){
+  
+}
