@@ -26,14 +26,18 @@ pollSubmitBTn.addEventListener('click', async () => {
   modal.style.display = "none";
   //Odd error check, but just to see if we can post
   let question = document.getElementById("poll-question").value;
+  let answer1 = document.getElementById("answer-1").value;
+  let answer2 = document.getElementById("answer-2").value;
+  let answer3 = document.getElementById("answer-3").value;
+  let answer4 = document.getElementById("answer-4").value;
   let userID = window.localStorage.getItem('userID')
   console.log(question);
   console.log(userID);
-  if(question != ''){
-    let questionResponse = await mockroblog.createPoll(userID, question);
+  if (question != '') {
+    let questionResponse = await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4]);
     alert("Submitted poll")
   }
-  console.log(questionResponse);
+  // console.log(questionResponse);
 });
 
 window.mockroblog = mockroblog
