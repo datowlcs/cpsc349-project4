@@ -10,7 +10,6 @@ const logoutBtn = document.getElementById('logout-button')
 const pollBtn = document.getElementById('poll-button')
 const pollSubmitBTn = document.getElementById('poll-submit-button')
 
-
 var modal = document.getElementById("myModal");
 pollBtn.addEventListener('click', async () => {
   modal.style.display = "block";
@@ -42,8 +41,6 @@ function onBoot() {
 logoutBtn.addEventListener('click', () => {
   utility.userLogout()
 })
-
-
 
 // Post Message Button
 postBtn.addEventListener('click', async () => {
@@ -159,6 +156,8 @@ async function appendPosts(timelineJson) {
       }
 
       likeBtn.addEventListener('click', async () => {
+        const loggedInUser = window.localStorage.getItem('userID')
+        await mockroblog.addLike(loggedInUser, post.id)
         updateLikes(post, likeBtn);
       });
 

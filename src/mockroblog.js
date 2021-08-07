@@ -102,7 +102,7 @@ export async function addFollower(userId, userIdToFollow) {
     }
   } catch (err) {
     console.log(err)
-    throw err
+    //throw err
   }
 
   // if (userId > 3) {
@@ -112,6 +112,34 @@ export async function addFollower(userId, userIdToFollow) {
   //     following_id: userIdToFollow
   //   }
   // }
+}
+
+export async function addLike(userId, postId) {
+  try {
+    const data = {
+      user_id: userId,
+      post_id: postId
+    }
+
+    const request = await fetch('http://localhost:5000/likes/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    console.log(request)
+
+    return {
+      id: 6,
+      user_id: userId,
+      post_id: postId
+      }
+    } catch (err) {
+      console.log(err)
+      //throw err
+    }
 }
 
 export async function removeFollower(userId, userIdToStopFollowing) {
