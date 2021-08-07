@@ -11,7 +11,7 @@ export async function createUser(username, email, password) {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
+      // console.log(data)
       return data
     })
     .catch(error => {
@@ -260,7 +260,7 @@ export async function postMessage(userId, text) {
       body: JSON.stringify(data)
     })
 
-    console.log(request)
+    // console.log(request)
     const json = await request.json()
     return json
   } catch (err) {
@@ -284,8 +284,8 @@ export async function createPoll(userID, message, optionsArr) {
       body: JSON.stringify(data)
     })
     const json = await request.json()
-    console.log('json', json)
-    console.log('options', optionsArr)
+    // console.log('json', json)
+    // console.log('options', optionsArr)
     for (const option of optionsArr) {
       const optionsData = {
         poll_id: json.id,

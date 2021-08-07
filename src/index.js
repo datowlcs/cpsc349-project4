@@ -32,8 +32,8 @@ pollSubmitBtn.addEventListener('click', async () => {
   const answer3 = document.getElementById('answer-3').value
   const answer4 = document.getElementById('answer-4').value
   const userID = window.localStorage.getItem('userID')
-  console.log(question)
-  console.log(userID)
+  // console.log(question)
+  // console.log(userID)
   if (question != '') {
     const questionResponse = await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4])
     alert('Submitted poll')
@@ -72,7 +72,7 @@ postBtn.addEventListener('click', async () => {
 // User Timeline Button
 userBtn.addEventListener('click', async () => {
   const user = window.localStorage.getItem('username')
-  console.log(user)
+  // console.log(user)
   if (user) {
     const timeline = await mockroblog.getUserTimeline(user)
     appendPosts(timeline)
@@ -203,8 +203,11 @@ async function appendPolls(polls) {
             // console.log("Final choice", pollChoice.value)
             const result = await mockroblog.voteOnPoll(poll.poll_id, loggedInUserID, pollChoice.value)
             if (result) {
-              console.log(result)
+              alert("Poll choice submitted");
+              // console.log(result)
               // submitPollBtn.innerHTML = ""
+            } else {
+              alert("Couldn't submit poll choice.");
             }
           }
         }
@@ -232,7 +235,7 @@ async function appendPosts(timelineJson) {
     }
   }
   const likes = await Promise.all(promiseLikes)
-  console.log(likes)
+  // console.log(likes)
   const users = await Promise.all(promises)
   for (const post of timelineJson) {
     /*
@@ -310,7 +313,7 @@ async function appendPosts(timelineJson) {
               followBtn.textContent = 'Follow'
               updateTimeline(true, postUser.username)
             } catch (err) {
-              console.log(err)
+              console.error(err)
             }
           }
         } else if (followBtn.textContent === 'Unfollow') {

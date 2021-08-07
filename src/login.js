@@ -15,7 +15,7 @@ loginButton.addEventListener('click', async () => {
     }
     // "Omitted error check cause it was breaking something"
   } else {
-    console.log(username, password, user)
+    // console.log(username, password, user)
     window.alert('Login failed.')
   }
 })
@@ -27,7 +27,8 @@ registerButton.addEventListener('click', async () => {
   const createdUser = await mockroblog.createUser(username, email, password)
 
   if (createdUser) {
-    window.alert('Account successfully created. Please Login')
+    window.alert('Account successfully created.')
+
     window.localStorage.setItem('userID', createdUser.id)
     window.localStorage.setItem('username', createdUser.username)
     window.location.replace(`${document.URL.substr(0, document.URL.lastIndexOf('/'))}/index.html`)
