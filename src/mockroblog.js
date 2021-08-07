@@ -1,10 +1,10 @@
 /* Mockroblog client API stubs for prototyping */
 export async function createUser(username, email, password) {
+  let url = 'http://localhost:5000/users'
 
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify({
-      id: 4,
       username: username,
       email: email,
       password: password
@@ -105,13 +105,6 @@ export async function addFollower(userId, userIdToFollow) {
     //throw err
   }
 
-  // if (userId > 3) {
-  //   return {
-  //     id: 6,
-  //     follower_id: userId,
-  //     following_id: userIdToFollow
-  //   }
-  // }
 }
 
 export async function addLike(userId, postId) {
@@ -135,11 +128,44 @@ export async function addLike(userId, postId) {
       id: 6,
       user_id: userId,
       post_id: postId
-      }
-    } catch (err) {
-      console.log(err)
-      //throw err
     }
+  } catch (err) {
+    console.log(err)
+    //throw err
+  }
+}
+
+export async function removeLike(userId, postId) {
+  try {
+
+    const getFollowerObject = await fetch(`http://localhost:5000/likes/?user_id=${userId}&post_id=${postId}`);
+    const jsonObj = await getFollowerObject.json();
+
+    const data = {
+      id: jsonObj.resources[0].id,
+      user_id: userId,
+      post_id: postId
+    }
+
+    const request = await fetch(`http://localhost:5000/likes/${data.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    console.log(request)
+
+    return {
+      id: data.id,
+      user_id: userId,
+      post_id: postId
+    }
+  } catch (err) {
+    console.error(err)
+    //throw err
+  }
 }
 
 export async function removeFollower(userId, userIdToStopFollowing) {

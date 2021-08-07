@@ -20,13 +20,12 @@ loginButton.addEventListener('click', async () => {
     window.alert('Login failed.')
   }
 })
-
 const registerButton = document.getElementById('registerButton')
-registerButton.addEventListener('click', () => {
+registerButton.addEventListener('click', async () => {
   const username = document.getElementById('regUsername').value
   const password = document.getElementById('regPassword').value
   const email = document.getElementById('email').value
-  const createdUser = mockroblog.createUser(username, email, password)
+  const createdUser = await mockroblog.createUser(username, email, password)
 
   if (createdUser) {
     window.alert('Account successfully created. Please Login')
