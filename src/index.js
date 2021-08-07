@@ -182,7 +182,7 @@ async function appendPolls(polls) {
             </table>
           </div>
           <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
-            <button class="hyperlink flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
+            <button class="submit-btn hyperlink flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
           </div>
         </div>
       </section>
@@ -194,7 +194,9 @@ async function appendPolls(polls) {
     if (!hasVoted) { // if we havent voted
       // Submit poll button
       // const 
-      const submitPollBtn = newPoll.children[0].children[1].children[0].children[0].children[1].children[0]
+      const submitPollBtn = newPoll.getElementsByClassName("submit-btn").item(0);
+      // console.log(submitPollBtn);
+      // const submitPollBtn = newPoll.children[0].children[1].children[0].children[0].children[1].children[0]
       // const submitPollBtn = newPoll.getElementById("submit-poll-option-button")
       submitPollBtn.addEventListener('click', async () => {
         const pollArr = newPoll.getElementsByTagName('input')
