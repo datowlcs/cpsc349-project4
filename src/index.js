@@ -127,8 +127,14 @@ async function appendPosts(timelineJson) {
         */
     const postUser = users.find(user => user.id === post.user_id);
     const newPost = document.createElement('div')
+
     const likesArr = likes.find(likes => (likes.length > 0 && likes[0].post_id === post.id));
-    console.log(likesArr);
+    let likedByUser;
+
+    if (likesArr) {
+      likedByUser = likesArr.find(l => l.user_id == loggedInUserID);
+    }
+    console.log("myUserLikes", likedByUser);
 
     newPost.className = 'post-item'
     newPost.innerHTML = `
@@ -139,7 +145,7 @@ async function appendPosts(timelineJson) {
                 <p class="leading-relaxed text-base">${post.text}</p>
                 <a class="mt-3 text-black-500 inline-flex items-center">${post.timestamp}</a>
                 <button class="hyperlink px-8 py-2" id="follow-button"></button>
-                <button class="hyperlink px-8 py-2" id="like-button">Like: ${likesArr ? likesArr.length : "0"}</button>
+                <button class="hyperlink px-8 py-2" id="like-button">${likedByUser ? "Unlike" : "Like"}: ${likesArr ? likesArr.length : "0"}</button>
             </div>
         </div>
         `
@@ -192,7 +198,6 @@ async function appendPosts(timelineJson) {
 async function updateTimeline(follow, username) {
   const postItems = document.querySelector('#post-container').getElementsByClassName('post-item')
   for (const postItem of postItems) {
-    // console.log(postItem.getElementsByClassName('post-username'))
     if (postItem.getElementsByClassName('post-username')[0].textContent === username) {
       const followBtn = postItem.children[0].children[1].children[3]
       followBtn.textContent = (follow ? 'Unfollow' : 'Follow')
@@ -203,7 +208,9 @@ async function updateTimeline(follow, username) {
 async function updateLikes(post, likeBtn) {
   const loggedInUser = window.localStorage.getItem('userID');
   let likes = await mockroblog.getLikesByPostID(post.id);
-  const likesArr = likes.find(likes => (likes.length > 0 && likes.user_id === loggedInUser));
-  likeBtn.innerHTML = likesArr ? `Unlike: ${likes.length}` : `Like: ${likes.length}`
+  const likedByUser = likes.find(like => (like.user_id == loggedInUser));
+  console.log("Updating likes on post:", `${likes ? likes.length : "no likes"}`)
+
+  likeBtn.innerHTML = `${likedByUser ? "Unlike" : "Like"}: ${likes ? likes.length : "0"}`
 
 }
