@@ -77,8 +77,6 @@ userBtn.addEventListener('click', async () => {
     const timeline = await mockroblog.getUserTimeline(user)
     appendPosts(timeline)
   }
-  // const polls = await mockroblog.getPolls();
-  // console.log(polls);
 })
 
 // Home Timeline Button
@@ -97,8 +95,10 @@ publicBtn.addEventListener('click', async () => {
 
 // Poll Timeline Button
 pollTimelineBtn.addEventListener('click', async () => {
+  console.log("button click");
   let polls = await mockroblog.getPolls();
-  console.log("polls", polls);
+  console.log("button2 click");
+  // console.log("polls", polls);
   appendPolls(polls)
 })
 
@@ -107,9 +107,13 @@ async function populateTimeline() {
 }
 
 async function appendPolls(polls) {
+  console.log("Appending polls", polls);
   const posts = document.querySelector('#post-container')
+
   posts.innerHTML = ''
+  let i = 0;
   for (let poll of polls) {
+    console.log("Appending poll", poll);
     let pollUserID = await mockroblog.getUserIDByPollID(poll.poll_id);
     let pollUser = await mockroblog.getUserName(pollUserID);
 
@@ -122,22 +126,24 @@ async function appendPolls(polls) {
         <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
             <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${pollUser.username}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
             <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
-                <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(postUser.username)}</h2>
+                <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(pollUser.username)}</h2>
                 <p class="leading-relaxed text-base">${poll.poll_question}</p>
-                <input type="radio" id="poll-option1" name="poll-option-choice" value="">
-                <label for="poll-option1">${poll.poll_options[0]}</label><br>
-                <input type="radio" id="poll-option2" name="poll-option-choice" value="">
-                <label for="poll-option2">${poll.poll_options[1]}</label><br>
-                <input type="radio" id="poll-option3" name="poll-option-choice" value="">
-                <label for="poll-option3">${poll.poll_options[2]}</label><br>
-                <input type="radio" id="poll-option4" name="poll-option-choice" value="">
-                <label for="poll-option4">${poll.poll_options[3]}</label><br>
+                <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" value="">
+                <label for="poll-${i}-option1">${poll.poll_options[0]}</label><br>
+                <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" value="">
+                <label for="poll-${i}-option2">${poll.poll_options[1]}</label><br>
+                <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" value="">
+                <label for="poll-${i}-option3">${poll.poll_options[2]}</label><br>
+                <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" value="">
+                <label for="poll-${i}-option4">${poll.poll_options[3]}</label><br>
                 <button class="hyperlink px-8 py-2" id="submit-poll-option-button">Submit</button>
 
             </div>
         </div>
         `
     posts.appendChild(newPoll)
+    i++;
+    console.log("New child")
   }
 
 }

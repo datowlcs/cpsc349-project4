@@ -328,7 +328,7 @@ export async function getPolls() {
     return result;
   } catch (err) {
     console.log(err)
-    return null;
+    return [];
   }
 
 }
@@ -339,5 +339,5 @@ export async function getUserIDByPollID(pollID) {
 
   const response = await fetch(`http://localhost:5000/polls/?id=${pollID}`)
   const userObj = await response.json()
-  return userObj.user_id;
+  return userObj.resources[0].user_id;
 }
