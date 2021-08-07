@@ -182,7 +182,7 @@ async function appendPolls(polls) {
             </table>
           </div>
           <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
-            <button class="hyperlink px-8 py-2" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
+            <button class="hyperlink flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" id="submit-poll-option-button">${hasVoted ? '' : 'Submit'}</button>
           </div>
         </div>
       </section>
