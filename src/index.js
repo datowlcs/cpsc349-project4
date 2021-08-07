@@ -8,6 +8,7 @@ const publicBtn = document.getElementById('public-button')
 const postBtn = document.getElementById('post-button')
 const logoutBtn = document.getElementById('logout-button')
 const pollBtn = document.getElementById('poll-button')
+const pollTimelineBtn = document.getElementById('poll-timline-button')
 const pollSubmitBTn = document.getElementById('poll-submit-button')
 
 //Poll Display
@@ -92,8 +93,47 @@ publicBtn.addEventListener('click', async () => {
   appendPosts(timelineJson)
 })
 
+// Poll Timeline Button
+pollSubmitBTn.addEventListener('click', async () => {
+  let polls = await mockroblog.getPolls();
+  appendPolls(polls)
+})
+
 async function populateTimeline() {
   appendPosts(await mockroblog.getPublicTimeline())
+}
+
+async function appendPolls(polls) {
+  const posts = document.querySelector('#post-container')
+  posts.innerHTML = ''
+  for (let poll of polls) {
+    let pollUserID = await mockroblog.getUserIDByPollID(poll.id);
+    let pollUser = await mockroblog.getUserName(pollUserID);
+
+    const newPoll = document.createElement('div')
+
+    newPoll.className = 'post-item'
+
+    newPoll.innerHTML = `
+        <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
+            <img src="https://via.placeholder.com/150/0492C2/FFFFFF?text=${pollUser.username}" class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0"></img>
+            <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+                <h2 class="post-username text-gray-900 text-lg title-font font-medium mb-2">${(postUser.username)}</h2>
+                <p class="leading-relaxed text-base">${poll.question}</p>
+                <p class="leading-relaxed text-base">${poll.answer1}</p>
+                <input type="radio" id="html" name="fav_language" value="HTML">
+                <p class="leading-relaxed text-base">${poll.answer2}</p>
+                <input type="radio" id="html" name="fav_language" value="HTML">
+                <p class="leading-relaxed text-base">${poll.answer3}</p>
+                <input type="radio" id="html" name="fav_language" value="HTML">
+                <p class="leading-relaxed text-base">${poll.answer4}</p>
+                <button class="hyperlink px-8 py-2" id="submit-poll-option-button">Submit</button>
+
+            </div>
+        </div>
+        `
+  }
+
 }
 
 async function appendPosts(timelineJson) {
@@ -102,7 +142,6 @@ async function appendPosts(timelineJson) {
 
   const loggedInUserID = window.localStorage.getItem('userID')
   const followingList = await mockroblog.getFollowing(loggedInUserID);
-
 
   let promiseLikes = [];
   for (const tmp of timelineJson) {
