@@ -232,7 +232,7 @@ async function appendPosts (timelineJson) {
   const uniqueIDs = []
   for (const tmp of timelineJson) {
     promiseLikes.push(mockroblog.getLikesByPostID(tmp.id))
-    if (uniqueIDs.indexOf(tmp.user_id) == -1) {
+    if (uniqueIDs.indexOf(tmp.user_id) === -1) {
       promises.push(mockroblog.getUserName(tmp.user_id))
     }
   }
@@ -265,7 +265,7 @@ async function appendPosts (timelineJson) {
     let likedByUser
 
     if (likesArr) {
-      likedByUser = likesArr.find(l => l.user_id == loggedInUserID)
+      likedByUser = likesArr.find(l => l.user_id === parseInt(loggedInUserID))
     }
 
     newPost.className = 'post-item'
@@ -296,7 +296,7 @@ async function appendPosts (timelineJson) {
     })
 
     // Add follower
-    if (postUser.id != window.localStorage.getItem('userID')) {
+    if (postUser.id !== parseInt(window.localStorage.getItem('userID'))) {
       const followBtn = newPost.children[0].children[1].children[3]
       const isFollowing = followingList.find(follower => follower.following_id === postUser.id)
       if (isFollowing) {
