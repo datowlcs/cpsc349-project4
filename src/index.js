@@ -155,25 +155,25 @@ async function appendPolls(polls) {
               </thead>
               <tbody>
                 <tr>
-                  <td class="px-4 py-3 w-full"><label for="poll-${i}-option1">${poll.poll_options[0]} Votes:${optionVotes[0].length}</label></td>
+                  <td class="px-4 py-3 w-full"><label for="poll-${i}-option1">${poll.poll_options[0]} <p class="text-green-400">Votes:${optionVotes[0].length}</p></label></td>
                   <td class="w-10 text-center">
                   <input type="radio" id="poll-${i}-option1" name="poll-option-choice${i}" class="poll-option-choice${i}" value="1" ${hasVoted ? 'disabled' : ''}>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option2">${poll.poll_options[1]} Votes:${optionVotes[1].length}</label></td>
+                  <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option2">${poll.poll_options[1]} <p class="text-green-400">Votes:${optionVotes[1].length}</p></label></td>
                   <td class="border-t-2 border-gray-200 w-10 text-center">
                   <input type="radio" id="poll-${i}-option2" name="poll-option-choice${i}" class="poll-option-choice${i}" value="2" ${hasVoted ? 'disabled' : ''}>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option3">${poll.poll_options[2]} Votes:${optionVotes[2].length}</label></td>
+                  <td class="border-t-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option3">${poll.poll_options[2]} <p class="text-green-400">Votes:${optionVotes[2].length}</p></label></td>
                   <td class="border-t-2 border-gray-200 w-10 text-center">
                   <input type="radio" id="poll-${i}-option3" name="poll-option-choice${i}" class="poll-option-choice${i}" value="3" ${hasVoted ? 'disabled' : ''}>
                   </td>
                 </tr>
                 <tr>
-                  <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option4">${poll.poll_options[3]} Votes:${optionVotes[3].length}</label></td>
+                  <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 w-full"><label for="poll-${i}-option4">${poll.poll_options[3]} <p class="text-green-400">Votes:${optionVotes[3].length}</p></label></td>
                   <td class="border-t-2 border-b-2 border-gray-200 w-10 text-center">
                   <input type="radio" id="poll-${i}-option4" name="poll-option-choice${i}" class="poll-option-choice${i}" value="4" ${hasVoted ? 'disabled' : ''}>
                   </td>
