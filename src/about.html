@@ -98,26 +98,26 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="px-4 py-3">export async function getLikes()</td>
-                      <td class="px-4 py-3">N/A</td>
-                      <td class="px-4 py-3">Fetches a table of all "likes" and returns the "likesList".</td>
+                      <td class="px-4 py-3">getLikes</td>
+                      <td class="px-4 py-3">(N/A)</td>
+                      <td class="px-4 py-3">Fetches a table of all "likes" and returns a list of all likes.</td>
                     </tr>
     
                     <tr>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">export async function getLikesByPostID(postID)</td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">postID</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">getLikesByPostID</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">(postID)</td>
                       <td class="border-t-2 border-gray-200 px-4 py-3">Fetches a table of "likes" based on a "postID" of a specific post and returns the "likesList".</td>
                     </tr>
     
                     <tr>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">export async function addLike(userId, postId)</td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">userId, postId</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">addLike</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">(userId, postId)</td>
                       <td class="border-t-2 border-gray-200 px-4 py-3">Fetches a table of "likes" and uses method "POST" in order to add a like based on the logged-in user (userId) and the id of the post (postId).</td>
                     </tr>
                     
                     <tr>
-                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">export async function removeLike(userId, postId)</td>
-                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">userId, postId</td>
+                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">removeLike</td>
+                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">(userId, postId)</td>
                       <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">Fetches a specific "like" from the table of "likes" based on the logged-in user (userId) and the id of the post (postId) in order to determine the entry of the "like" on the table then remove it based on the entry number. </td>
                     </tr>
                   </tbody>
@@ -143,33 +143,33 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="px-4 py-3">export async function createPoll(userID, message, optionsArr)</td>
-                      <td class="px-4 py-3">PLACEHOLDER</td>
-                      <td class="px-4 py-3">PLACEHOLDER</td>
+                      <td class="px-4 py-3">createPoll</td>
+                      <td class="px-4 py-3">(userID, message, optionsArr)</td>
+                      <td class="px-4 py-3">Uses a POST request to add a poll to the poll table and then creates 4 entries to poll_options with the given poll_options.</td>
                     </tr>
     
                     <tr>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">export async function getPolls()</td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">PLACEHOLDER</td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">PLACEHOLDER</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">getPolls</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">(N/A)</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">Fetches the table of all polls and also fetches all poll options for those polls.</td>
                     </tr>
     
                     <tr>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">export async function voteOnPoll(pollID, userID, option_id)</td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">PLACEHOLDER</td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">PLACEHOLDER</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">voteOnPoll</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">(pollID, userID, option_id)</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">Uses a POST request to submit a vote for a poll option of a poll.</td>
                     </tr>
 
                     <tr>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">export async function getPollVotes(pollID)</td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">PLACEHOLDER</td>
-                      <td class="border-t-2 border-gray-200 px-4 py-3">PLACEHOLDER</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">getPollVotes</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">(pollID)</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">Fetches the table of all poll_votes pertaining to a specific poll and returns as a list.</td>
                     </tr>
                     
                     <tr>
-                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">export async function getUserIDByPollID(pollID)</td>
-                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">PLACEHOLDER</td>
-                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">PLACEHOLDER</td>
+                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">getUserIDByPollID</td>
+                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">(pollID)</td>
+                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">Fetches the author of a poll using the poll_id.</td>
                     </tr>
                   </tbody>
                 </table>

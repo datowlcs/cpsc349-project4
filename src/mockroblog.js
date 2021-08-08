@@ -364,22 +364,6 @@ export async function getPollVotes(pollID) {
     const pollVotesList = await pollOptionsArray.json()
 
     return pollVotesList.resources
-
-    // console.log(pollsList)
-
-    // for (let poll of pollsList.resources) {
-    //   let pollOptionsArray = await fetch(`http://localhost:5000/poll_options/?poll_id=${poll.id}`);
-    //   let pollOptionsList = await pollOptionsArray.json();
-    //   let optionsAr = [];
-    //   for (let option of pollOptionsList.resources) {
-    //     optionsAr.push(option.text);
-    //   }
-    //   result.push({
-    //     poll_id: poll.id,
-    //     poll_question: poll.question,
-    //     poll_options: optionsAr,
-    //   })
-    // }
   } catch (err) {
     console.error(err)
     return []
