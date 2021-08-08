@@ -1,7 +1,7 @@
 /* Mockroblog client API stubs for prototyping */
-export async function createUser(username, email, password) {
+export async function createUser (username, email, password) {
   try {
-    let response = await fetch("http://localhost:5000/users/", {
+    const response = await window.fetch('http://localhost:5000/users/', {
       method: 'POST',
       body: JSON.stringify({
         username: username,
@@ -9,33 +9,32 @@ export async function createUser(username, email, password) {
         password: password
       })
     })
-    let json = await response.json();
+    const json = await response.json()
     // console.log(json);
-    return json;
+    return json
   } catch (err) {
-    console.log(err);
-    return null;
+    console.log(err)
+    return null
   }
-
 }
 
-export async function authenticateUser(username, password) {
-  const response = await fetch(`http://localhost:5000/users/?username=${username}&password=${password}`, {
+export async function authenticateUser (username, password) {
+  const response = await window.fetch(`http://localhost:5000/users/?username=${username}&password=${password}`, {
     method: 'GET'
   })
 
   const user = await response.json()
 
   if (!response.ok) {
-    alert('Invald Request. Please try again.')
+    window.alert('Invald Request. Please try again.')
     return null
   }
-  console.log(user.resources[0]);
+  console.log(user.resources[0])
   return user.resources[0]
 }
 
-export async function getUserName(userID) {
-  const response = await fetch(`http://localhost:5000/users/?id=${userID}`, {
+export async function getUserName (userID) {
+  const response = await window.fetch(`http://localhost:5000/users/?id=${userID}`, {
     method: 'GET'
   })
   // console.log(response);
@@ -43,45 +42,45 @@ export async function getUserName(userID) {
   const user = await response.json()
 
   if (!response.ok) {
-    alert('Invald Request. Please try again.')
+    window.alert('Invald Request. Please try again.')
     return null
   }
 
   return user.resources[0]
 }
 
-export async function getFollowing(userID) {
-  const response = await fetch(`http://localhost:5000/followers/?follower_id=${userID}`)
+export async function getFollowing (userID) {
+  const response = await window.fetch(`http://localhost:5000/followers/?follower_id=${userID}`)
   const followingList = await response.json()
   return followingList.resources
 }
 
-export async function getFollowers(userID) {
-  const response = await fetch(`http://localhost:5000/followers/?following_id=${userID}`)
+export async function getFollowers (userID) {
+  const response = await window.fetch(`http://localhost:5000/followers/?following_id=${userID}`)
   const followerList = await response.json()
   return followerList.resources
 }
 
-export async function getLikes() {
-  const response = await fetch('http://localhost:5000/likes/')
+export async function getLikes () {
+  const response = await window.fetch('http://localhost:5000/likes/')
   const likesList = await response.json()
   return likesList.resources
 }
 
-export async function getLikesByPostID(postID) {
-  const response = await fetch(`http://localhost:5000/likes/?post_id=${postID}`)
+export async function getLikesByPostID (postID) {
+  const response = await window.fetch(`http://localhost:5000/likes/?post_id=${postID}`)
   const likesList = await response.json()
   return likesList.resources
 }
 
-export async function addFollower(userId, userIdToFollow) {
+export async function addFollower (userId, userIdToFollow) {
   try {
     const data = {
       follower_id: userId,
       following_id: userIdToFollow
     }
 
-    const request = await fetch('http://localhost:5000/followers/', {
+    const request = await window.fetch('http://localhost:5000/followers/', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json'
@@ -108,14 +107,14 @@ export async function addFollower(userId, userIdToFollow) {
   // }
 }
 
-export async function addLike(userId, postId) {
+export async function addLike (userId, postId) {
   try {
     const data = {
       user_id: userId,
       post_id: postId
     }
 
-    const request = await fetch('http://localhost:5000/likes/', {
+    const request = await window.fetch('http://localhost:5000/likes/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -132,9 +131,9 @@ export async function addLike(userId, postId) {
   }
 }
 
-export async function removeLike(userId, postId) {
+export async function removeLike (userId, postId) {
   try {
-    const getLikeObject = await fetch(`http://localhost:5000/likes/?post_id=${postId}&user_id=${userId}`)
+    const getLikeObject = await window.fetch(`http://localhost:5000/likes/?post_id=${postId}&user_id=${userId}`)
     const jsonObj = await getLikeObject.json()
 
     // console.log(jsonObj.resources);
@@ -144,7 +143,7 @@ export async function removeLike(userId, postId) {
       user_id: userId
     }
 
-    const request = await fetch(`http://localhost:5000/likes/${data.id}`, {
+    const request = await window.fetch(`http://localhost:5000/likes/${data.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -160,9 +159,9 @@ export async function removeLike(userId, postId) {
   }
 }
 
-export async function removeFollower(userId, userIdToStopFollowing) {
+export async function removeFollower (userId, userIdToStopFollowing) {
   try {
-    const getFollowerObject = await fetch(`http://localhost:5000/followers/?follower_id=${userId}&following_id=${userIdToStopFollowing}`)
+    const getFollowerObject = await window.fetch(`http://localhost:5000/followers/?follower_id=${userId}&following_id=${userIdToStopFollowing}`)
     const jsonObj = await getFollowerObject.json()
 
     const data = {
@@ -171,7 +170,7 @@ export async function removeFollower(userId, userIdToStopFollowing) {
       following_id: userIdToStopFollowing
     }
 
-    const request = await fetch(`http://localhost:5000/followers/${data.id}`, {
+    const request = await window.fetch(`http://localhost:5000/followers/${data.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -187,23 +186,23 @@ export async function removeFollower(userId, userIdToStopFollowing) {
   }
 }
 
-export async function getUser(username) {
-  const response = await fetch(`http://localhost:5000/users/?username=${username}`)
+export async function getUser (username) {
+  const response = await window.fetch(`http://localhost:5000/users/?username=${username}`)
   const user = await response.json()
   return user.resources[0]
 }
 
-export async function getUserTimeline(username) {
+export async function getUserTimeline (username) {
   const user = await getUser(username)
   // console.log(user);
-  const response = await fetch(`http://localhost:5000/posts/?user_id=${(user.id)}&sort=-timestamp`)
+  const response = await window.fetch(`http://localhost:5000/posts/?user_id=${(user.id)}&sort=-timestamp`)
 
   const userTimeline = await response.json()
   return userTimeline.resources
 }
 
-export async function getPublicTimeline() {
-  const response = await fetch('http://localhost:5000/posts/?sort=-timestamp')
+export async function getPublicTimeline () {
+  const response = await window.fetch('http://localhost:5000/posts/?sort=-timestamp')
 
   const json = await response.json()
 
@@ -211,15 +210,15 @@ export async function getPublicTimeline() {
 }
 
 // Home timeline is everyone the current logged in user is following. All of their posts.
-export async function getHomeTimeline(username) {
+export async function getHomeTimeline (username) {
   const loggedInUser = await getUser(username)
   // console.log(loggedInUser);
-  const response = await fetch(`http://localhost:5000/followers/?follower_id=${loggedInUser.id}`)
+  const response = await window.fetch(`http://localhost:5000/followers/?follower_id=${loggedInUser.id}`)
   const followingList = await response.json()
   // get posts of all followingUsers
   const promises = []
   for (const follower of followingList.resources) {
-    const response = await fetch(`http://localhost:5000/posts/?user_id=${(follower.following_id)}&sort=-timestamp`)
+    const response = await window.fetch(`http://localhost:5000/posts/?user_id=${(follower.following_id)}&sort=-timestamp`)
     promises.push(response)
   }
   const posts = await Promise.all(promises)
@@ -245,14 +244,14 @@ export async function getHomeTimeline(username) {
   return allPosts
 }
 
-export async function postMessage(userId, text) {
+export async function postMessage (userId, text) {
   try {
     const data = {
       user_id: userId,
       text: text
     }
 
-    const request = await fetch('http://localhost:5000/posts/', {
+    const request = await window.fetch('http://localhost:5000/posts/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -269,14 +268,14 @@ export async function postMessage(userId, text) {
   }
 }
 
-export async function createPoll(userID, message, optionsArr) {
+export async function createPoll (userID, message, optionsArr) {
   try {
     const data = {
       user_id: userID,
       question: message
     }
 
-    const request = await fetch('http://localhost:5000/polls/', {
+    const request = await window.fetch('http://localhost:5000/polls/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -291,7 +290,8 @@ export async function createPoll(userID, message, optionsArr) {
         poll_id: json.id,
         text: option
       }
-      const optionsRequest = await fetch('http://localhost:5000/poll_options/', {
+      // const optionsRequest = await fetch('http://localhost:5000/poll_options/', {
+      await window.fetch('http://localhost:5000/poll_options/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -306,16 +306,16 @@ export async function createPoll(userID, message, optionsArr) {
   }
 }
 
-export async function getPolls() {
+export async function getPolls () {
   try {
-    const polls = await fetch('http://localhost:5000/polls')
+    const polls = await window.fetch('http://localhost:5000/polls')
     const result = []
     const pollsList = await polls.json()
 
     // console.log(pollsList)
 
     for (const poll of pollsList.resources) {
-      const pollOptionsArray = await fetch(`http://localhost:5000/poll_options/?poll_id=${poll.id}`)
+      const pollOptionsArray = await window.fetch(`http://localhost:5000/poll_options/?poll_id=${poll.id}`)
       const pollOptionsList = await pollOptionsArray.json()
       const optionsAr = []
       for (const option of pollOptionsList.resources) {
@@ -334,16 +334,16 @@ export async function getPolls() {
   }
 }
 
-export async function voteOnPoll(pollID, userID, option_id) {
+export async function voteOnPoll (pollID, userID, optionID) {
   // let pollOptionsArray = await fetch(`http://localhost:5000/poll_votes/?poll_id=${pollID}`);
   try {
     const data = {
       poll_id: pollID,
       user_id: userID,
-      option_id: option_id
+      option_id: optionID
     }
 
-    const request = await fetch('http://localhost:5000/poll_votes/', {
+    const request = await window.fetch('http://localhost:5000/poll_votes/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -358,9 +358,9 @@ export async function voteOnPoll(pollID, userID, option_id) {
   }
 }
 
-export async function getPollVotes(pollID) {
+export async function getPollVotes (pollID) {
   try {
-    const pollOptionsArray = await fetch(`http://localhost:5000/poll_votes/?poll_id=${pollID}`)
+    const pollOptionsArray = await window.fetch(`http://localhost:5000/poll_votes/?poll_id=${pollID}`)
     const pollVotesList = await pollOptionsArray.json()
 
     return pollVotesList.resources
@@ -373,9 +373,9 @@ export async function getPollVotes(pollID) {
 // Return an array of all polls, poll_id, poll_question, poll_options
 // if poll is empty, return an error or empty array
 
-export async function getUserIDByPollID(pollID) {
+export async function getUserIDByPollID (pollID) {
   try {
-    const response = await fetch(`http://localhost:5000/polls/?id=${pollID}`)
+    const response = await window.fetch(`http://localhost:5000/polls/?id=${pollID}`)
     const userObj = await response.json()
     return userObj.resources[0].user_id
   } catch (err) {

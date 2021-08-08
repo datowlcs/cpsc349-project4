@@ -35,15 +35,16 @@ pollSubmitBtn.addEventListener('click', async () => {
   // console.log(question)
   // console.log(userID)
   if (question != '') {
-    const questionResponse = await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4])
-    alert('Submitted poll')
+    // const questionResponse = await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4])
+    await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4])
+    window.alert('Submitted poll')
   }
   // console.log(questionResponse);
 })
 
 window.mockroblog = mockroblog
 onBoot()
-function onBoot() {
+function onBoot () {
   const loggedIn = utility.isLoggedIn()
   if (loggedIn) {
     populateTimeline()
@@ -99,11 +100,11 @@ pollTimelineBtn.addEventListener('click', async () => {
   appendPolls(polls)
 })
 
-async function populateTimeline() {
+async function populateTimeline () {
   appendPosts(await mockroblog.getPublicTimeline())
 }
 
-async function appendPolls(polls) {
+async function appendPolls (polls) {
   const posts = document.querySelector('#post-container')
 
   posts.innerHTML = ''
@@ -193,7 +194,7 @@ async function appendPolls(polls) {
     posts.appendChild(newPoll)
     if (!hasVoted) { // if we havent voted
       // Submit poll button
-      const submitPollBtn = newPoll.getElementsByClassName("submit-btn").item(0);
+      const submitPollBtn = newPoll.getElementsByClassName('submit-btn').item(0)
       submitPollBtn.addEventListener('click', async () => {
         const pollArr = newPoll.getElementsByTagName('input')
         let pollChoice
@@ -203,11 +204,11 @@ async function appendPolls(polls) {
             // console.log("Final choice", pollChoice.value)
             const result = await mockroblog.voteOnPoll(poll.poll_id, loggedInUserID, pollChoice.value)
             if (result) {
-              alert("Poll choice submitted");
+              window.alert('Poll choice submitted')
               // console.log(result)
               // submitPollBtn.innerHTML = ""
             } else {
-              alert("Couldn't submit poll choice.");
+              window.alert("Couldn't submit poll choice.")
             }
           }
         }
@@ -217,7 +218,7 @@ async function appendPolls(polls) {
   }
 }
 
-async function appendPosts(timelineJson) {
+async function appendPosts (timelineJson) {
   const posts = document.querySelector('#post-container')
   posts.innerHTML = ''
 
@@ -329,7 +330,7 @@ async function appendPosts(timelineJson) {
   }
 }
 
-async function updateTimeline(follow, username) {
+async function updateTimeline (follow, username) {
   const postItems = document.querySelector('#post-container').getElementsByClassName('post-item')
   for (const postItem of postItems) {
     if (postItem.getElementsByClassName('post-username')[0].textContent === username) {
@@ -339,7 +340,7 @@ async function updateTimeline(follow, username) {
   }
 }
 
-async function updateLikes(post, likeBtn) {
+async function updateLikes (post, likeBtn) {
   const loggedInUser = window.localStorage.getItem('userID')
   const likes = await mockroblog.getLikesByPostID(post.id)
   const likedByUser = likes.find(like => (like.user_id == loggedInUser))
