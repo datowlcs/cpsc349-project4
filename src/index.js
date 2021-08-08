@@ -115,7 +115,7 @@ async function appendPolls (polls) {
     const pollUser = await mockroblog.getUserName(pollUserID)
     const pollVotes = await mockroblog.getPollVotes(poll.poll_id)
     const optionVotes = [pollVotes.filter(pv => pv.option_id == 1), pollVotes.filter(pv => pv.option_id == 2), pollVotes.filter(pv => pv.option_id == 3), pollVotes.filter(pv => pv.option_id == 4)]
-    const hasVoted = pollVotes.find(pv => pv.user_id === parseInt(loggedInUserID)) // standard --fix suggestion breaks
+    const hasVoted = pollVotes.find(pv => pv.user_id === parseInt(loggedInUserID)
     const newPoll = document.createElement('div')
 
     newPoll.className = 'post-item'
