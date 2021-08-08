@@ -81,6 +81,52 @@
             </div>
           </section>
 
+          <!--Likes Functionality Table-->
+          <section class="text-gray-600 body-font">
+            <div class="container px-5 py-24 mx-auto">
+              <div class="flex flex-col text-center w-full mb-4">
+                <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Likes Feature</h1>
+              </div>
+              <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+                <table class="table-auto w-full text-left whitespace-no-wrap">
+                  <thead>
+                    <tr>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Function</th>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Parameters</th>
+                      <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Description</th>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3">export async function getLikes()</td>
+                      <td class="px-4 py-3">N/A</td>
+                      <td class="px-4 py-3">Fetches a table of all "likes" and returns the "likesList".</td>
+                    </tr>
+    
+                    <tr>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">export async function getLikesByPostID(postID)</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">postID</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">Fetches a table of "likes" based on a "postID" of a specific post and returns the "likesList".</td>
+                    </tr>
+    
+                    <tr>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">export async function addLike(userId, postId)</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">userId, postId</td>
+                      <td class="border-t-2 border-gray-200 px-4 py-3">Fetches a table of "likes" and uses method "POST" in order to add a like based on the logged-in user (userId) and the id of the post (postId).</td>
+                    </tr>
+                    
+                    <tr>
+                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">export async function removeLike(userId, postId)</td>
+                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">userId, postId</td>
+                      <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">Fetches a specific "like" from the table of "likes" based on the logged-in user (userId) and  </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </section>
+
           <!--Wireframe-->
           <section class="text-gray-600 body-font">
             <div class="container px-5 pt-24 mx-auto">
