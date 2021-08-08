@@ -1,23 +1,22 @@
 /* Mockroblog client API stubs for prototyping */
 export async function createUser(username, email, password) {
-  return fetch("http://localhost:5000/users/", {
-    method: 'POST',
-    body: JSON.stringify({
-      username: username,
-      email: email,
-      password: password
-    }),
-    headers: new Headers()
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // console.log(data)
-      return data
+  try {
+    let response = await fetch("http://localhost:5000/users/", {
+      method: 'POST',
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password
+      })
     })
-    .catch(error => {
-      console.error(error)
-      return null
-    })
+    let json = await response.json();
+    // console.log(json);
+    return json;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+
 }
 
 export async function authenticateUser(username, password) {
@@ -31,6 +30,7 @@ export async function authenticateUser(username, password) {
     alert('Invald Request. Please try again.')
     return null
   }
+  console.log(user.resources[0]);
   return user.resources[0]
 }
 

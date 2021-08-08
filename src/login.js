@@ -15,7 +15,6 @@ loginButton.addEventListener('click', async () => {
     }
     // "Omitted error check cause it was breaking something"
   } else {
-    // console.log(username, password, user)
     window.alert('Login failed.')
   }
 })
@@ -32,6 +31,8 @@ registerButton.addEventListener('click', async () => {
     window.localStorage.setItem('userID', createdUser.id)
     window.localStorage.setItem('username', createdUser.username)
     window.location.replace(`${document.URL.substr(0, document.URL.lastIndexOf('/'))}/index.html`)
+  } else {
+    window.alert("Register account failed.")
   }
 })
 
