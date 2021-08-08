@@ -17,7 +17,7 @@ pollBtn.addEventListener('click', async () => {
   modal.style.display = 'block'
 })
 window.onclick = function (event) {
-  if (event.target == modal) {
+  if (event.target === modal) {
     modal.style.display = 'none'
   }
 }
@@ -34,7 +34,7 @@ pollSubmitBtn.addEventListener('click', async () => {
   const userID = window.localStorage.getItem('userID')
   // console.log(question)
   // console.log(userID)
-  if (question != '') {
+  if (question !== '') {
     // const questionResponse = await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4])
     await mockroblog.createPoll(userID, question, [answer1, answer2, answer3, answer4])
     window.alert('Submitted poll')
@@ -115,7 +115,7 @@ async function appendPolls (polls) {
     const pollUser = await mockroblog.getUserName(pollUserID)
     const pollVotes = await mockroblog.getPollVotes(poll.poll_id)
     const optionVotes = [pollVotes.filter(pv => pv.option_id == 1), pollVotes.filter(pv => pv.option_id == 2), pollVotes.filter(pv => pv.option_id == 3), pollVotes.filter(pv => pv.option_id == 4)]
-    const hasVoted = pollVotes.find(pv => pv.user_id == loggedInUserID)
+    const hasVoted = pollVotes.find(pv => pv.user_id === parseInt(loggedInUserID)) // standard --fix suggestion breaks
     const newPoll = document.createElement('div')
 
     newPoll.className = 'post-item'
