@@ -6,7 +6,7 @@ loginButton.addEventListener('click', async () => {
   const password = document.getElementById('passwordN').value
   const user = await mockroblog.authenticateUser(username, password)
   if (user) {
-    if (user.username == username) {
+    if (user.username === username) {
       window.localStorage.setItem('userID', user.id)
       window.localStorage.setItem('username', user.username)
       window.alert('Login succeeded')

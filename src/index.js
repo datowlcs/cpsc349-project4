@@ -114,7 +114,8 @@ async function appendPolls (polls) {
     const pollUserID = await mockroblog.getUserIDByPollID(poll.poll_id)
     const pollUser = await mockroblog.getUserName(pollUserID)
     const pollVotes = await mockroblog.getPollVotes(poll.poll_id)
-    const optionVotes = [pollVotes.filter(pv => pv.option_id == 1), pollVotes.filter(pv => pv.option_id == 2), pollVotes.filter(pv => pv.option_id == 3), pollVotes.filter(pv => pv.option_id == 4)]
+    const optionVotes = [pollVotes.filter(pv => pv.option_id === 1), pollVotes.filter(pv => pv.option_id === 2), pollVotes.filter(pv => pv.option_id === 3), pollVotes.filter(pv => pv.option_id === 4)]
+    // const hasVoted = pollVotes.find(pv => pv.user_id == loggedInUserID)
     const hasVoted = pollVotes.find(pv => pv.user_id === parseInt(loggedInUserID))
     const newPoll = document.createElement('div')
 
@@ -285,7 +286,7 @@ async function appendPosts (timelineJson) {
     const likeBtn = newPost.children[0].children[1].children[4]
     likeBtn.addEventListener('click', async () => {
       const loggedInUser = window.localStorage.getItem('userID')
-      if (likeBtn.textContent.indexOf('Unlike') != -1) { // Is Unlike
+      if (likeBtn.textContent.indexOf('Unlike') !== -1) { // Is Unlike
         await mockroblog.removeLike(loggedInUser, post.id)
         updateLikes(post, likeBtn)
       } else { // Button says Like
@@ -343,7 +344,7 @@ async function updateTimeline (follow, username) {
 async function updateLikes (post, likeBtn) {
   const loggedInUser = window.localStorage.getItem('userID')
   const likes = await mockroblog.getLikesByPostID(post.id)
-  const likedByUser = likes.find(like => (like.user_id == loggedInUser))
+  const likedByUser = likes.find(like => (like.user_id === parseInt(loggedInUser)))
   console.log('Updating likes on post:', `${likes ? likes.length : 'no likes'}`)
 
   likeBtn.innerHTML = `${likedByUser ? 'Unlike' : 'Like'}: ${likes ? likes.length : '0'}`
