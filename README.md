@@ -1,9 +1,10 @@
-# Mockroblog - Mock APIs for Microblogging
+# Glitter
+This is a miniature mock twitter clone crafted with a TailWind and JavaScript front-end as well as SQL and sandman2 back-end.
 
-**Q.** What's the minimum amount of code needed to mock up a miniature
-       Twitter back-end?
+https://user-images.githubusercontent.com/73214439/128944937-7bba2358-d21f-4164-85a0-29fcb1e53085.mp4
 
-**A.** How comfortable are you with SQL?
+
+
 
 ## Getting started
 
@@ -60,56 +61,6 @@ See the following references for more information:
 * [webpack](https://webpack.js.org/)
 
 
-# Sample API calls
-
-| Operation     | HTTP Method | URL                            |
-|---------------|-------------|--------------------------------|
-| Create a user | POST        | `http://localhost:5000/users/` |
-
-```json
-{
-    "username": "tester",
-    "email": "test@example.com",
-    "password": "testing"
-}
-```
-
-
-| Operation               | HTTP Method | URL                            |
-|-------------------------|-------------|---------------------------------------------------------------------|
-| Check a user's password | GET         | `http://localhost:5000/users/?username=ProfAvery&password=password` |
-| Start following a user  | POST        | `http://localhost:5000/followers/`                                   |
-
-```json
-{
-    "follower_id": 4,
-    "following_id": 2
-}
-```
-
-
-| Operation              | HTTP Method | URL                            |
-|------------------------|-------------|---------------------------------------------------------------------|
-| Stop following a user  | DELETE      | `http://localhost:5000/followers/6`                                 |
-
-Note that `6` is the `id` of the entry in the `followers` table, not the `user_id` of either user.
-
-
-| Operation                    | HTTP Method | URL                            |
-|------------------------------|-------------|---------------------------------------------------------------------|
-| Retrieve a user's timeline   | GET         | `http://localhost:5000/posts/?user_id=2&sort=-timestamp`            |
-| Retrieve the public timeline | GET         | `http://localhost:5000/posts/?sort=-timestamp`                       |
-| Search posts for a hashtag   | GET         | `http://localhost:5000/posts/?text=%%%%23cpsc315%%&sort=-timestamp` |
-| Post a new message           | POST        | `http://localhost:5000/posts/`                                      |
-
-```json
-{
-    "user_id": 4,
-    "text": "First poast!"
-}
-```
-
-
 ## Other features
 
 This version of the [Mockroblog database](./api/mockroblog.sql) includes
@@ -117,10 +68,15 @@ additional data not included in
 [Project 3](https://github.com/ProfAvery/cpsc349-project3):
 
  * Likes
- * Direct Messages
  * Polls
 
 The REST API exposed by `sandman2` also allows additional types of queries
 against existing data. See
 [the documentation](https://pythonhosted.org/sandman2/interacting.html) for
 details.
+
+# Team Members:
+1. Nolan O'Donnell
+2. Quentin May
+3. Stephanie Cobb
+4. Joe Rico
