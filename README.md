@@ -1,4 +1,4 @@
-# Glitter
+# <img src="https://user-images.githubusercontent.com/73214439/128945979-b4e2fb92-c232-4665-a1ea-8902da315826.png" width="72" height="72"> [Glitter](https://github.com/quentinmay/cpsc349-project4)
 This is a miniature mock twitter clone crafted with a TailWind and JavaScript front-end as well as SQL and sandman2 back-end.
 
 https://user-images.githubusercontent.com/73214439/128944937-7bba2358-d21f-4164-85a0-29fcb1e53085.mp4
